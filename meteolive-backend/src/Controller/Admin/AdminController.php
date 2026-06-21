@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/api/admin')]
 final class AdminController extends AbstractController
 {
-    #[Route('/admin/admin', name: 'app_admin_admin')]
+    #[Route('', name: 'api_admin_index', methods: ['GET'])]
     public function index(): JsonResponse
     {
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/Admin/AdminController.php',
+            'message' => 'Admin controller',
         ]);
     }
 }

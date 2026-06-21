@@ -22,7 +22,7 @@ class AuthController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (empty($data['email']) || empty($data['password']) || empty($data['pseudo'])) {
-            return $this->json(['message' => 'Email, password et pseudo sont obligatoires'], 400);
+            return $this->json(['message' => 'Email, password et pseudo sont ophpbligatoires'], 400);
         }
 
         $existingUser = $em->getRepository(Utilisateur::class)->findOneBy(['email' => $data['email']]);

@@ -38,6 +38,12 @@ class Meteo
     #[ORM\JoinColumn(nullable: false)]
     private ?Ville $ville = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $icone = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $humidite = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +141,30 @@ class Meteo
     public function setVille(?Ville $ville): static
     {
         $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(?string $icone): static
+    {
+        $this->icone = $icone;
+
+        return $this;
+    }
+
+    public function getHumidite(): ?int
+    {
+        return $this->humidite;
+    }
+
+    public function setHumidite(?int $humidite): static
+    {
+        $this->humidite = $humidite;
 
         return $this;
     }
