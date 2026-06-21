@@ -230,4 +230,20 @@ class ProfilController extends AbstractController
     return $this->json(['message' => 'La ville par défaut a été mise a jour']);
     }
 
+    #[Route('/unite', name: 'api_me_unite', methods: ['PUT'])]
+    public function updateUnite(Request $request,EntityManagerInterface $em): JsonResponse {
+    $user = $this->getUser();
+    $data = json_decode($request->getContent(), true);
+
+    if (!$data['unite']) {
+        return $this->json(['message' => 'L\'unité est obligatoire'], 400);
+    }
+    if (!in_array($data['unite'], ['celsius', 'fahrenheit'])) {
+        return $this->json(['message' => 'L\'unité doit être celsius ou fahrenheit'], 400);
+    }
+    $user->setUnite($data['unite']);
+    $em->flush();
+
+    return $this->json(['message' => 'Unité mise a jour']);
+    }
 }

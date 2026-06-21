@@ -40,6 +40,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne]
     private ?Ville $villeDefaut = null;
 
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $unite = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -147,6 +150,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVilleDefaut(?Ville $villeDefaut): static
     {
         $this->villeDefaut = $villeDefaut;
+
+        return $this;
+    }
+
+    public function getUnite(): ?string
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?string $unite): static
+    {
+        $this->unite = $unite;
 
         return $this;
     }
