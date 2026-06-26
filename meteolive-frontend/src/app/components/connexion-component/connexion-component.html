@@ -1,0 +1,13 @@
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <input type="text" name="email" ngModel required>
+      <input type="password" name="password" ngModel required>
+      
+      <!-- Désactive le bouton si le formulaire n'est pas valide -->
+      <button type="submit" [disabled]="!loginForm.valid">
+        Login
+      </button>
+    </form>
+
+    <button routerLink="/inscrire">
+  Aller au profil
+</button>
