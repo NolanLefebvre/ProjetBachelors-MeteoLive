@@ -1,0 +1,6 @@
+<form #form="ngForm">
+    <input type="text" name="pseudo" ngModel>
+    <input type="email" name="email" ngModel>
+    <input type="password" name="password" ngModel>
+    <button type="submit" (click)="onSubmit(form)">S'inscrire</button>
+</form>
