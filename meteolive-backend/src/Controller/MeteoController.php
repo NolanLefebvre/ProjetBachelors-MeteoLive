@@ -93,4 +93,50 @@ class MeteoController extends AbstractController
             'dateMesure' => $meteo->getDateMesure()->format('Y-m-d H:i:s'),
         ]);
     }
+    #[Route('/meteo/{nomVille}/previsions', name: 'api_meteo_previsions', methods: ['GET'])]
+    public function getPrevisions(
+        string $nomVille,
+        HttpClientInterface $httpClient
+    ): JsonResponse {
+
+    $apiKey = $_ENV['OPENWEATHER_API_KEY'];
+    $response = $httpClient->request('GET', 'https://api.openweathermap.org/data/2.5/forecast', [
+        'query' => [
+            'q' => $nomVille,
+            'appid' => $apiKey,
+            'units' => 'metric',
+            'lang' => 'fr'
+        ]
+    ]);
+    if ($response->getStatusCode() !== 200) {
+        return $this->json(['message' => 'Ville introuvable'], 404);
+    }
+
+    $data = $response->toArray();
+
+     $heuresFiltre = ['09:00:00', '12:00:00', '15:00:00', '18:00:00', '21:00:00'];
+     $date = (new \DateTime())->format('Y-m-d');
+     $previsions = [];
+
+    foreach ($data['list'] as $item) {
+        $dateItem = $item['dt_txt'];
+        $datePartie = substr($dateItem, 0, 10);
+        $heurePartie = substr($dateItem, 11);
+
+        if ($datePartie === $date && in_array($heurePartie, $heuresFiltre)) {
+            $previsions[] = [
+                'heure' => substr($heurePartie, 0, 5), // "09:00"
+                'temperature' => $item['main']['temp'],
+                'condition' => $item['weather'][0]['main'],
+                'conditionDescription' => $item['weather'][0]['description'],
+                'icone' => $item['weather'][0]['icon'],
+            ];
+        }
+    }
+    return $this->json([
+        'ville' => $data['city']['name'],
+        'pays' => $data['city']['country'],
+        'previsions' => $previsions
+    ]);
+}
 }
