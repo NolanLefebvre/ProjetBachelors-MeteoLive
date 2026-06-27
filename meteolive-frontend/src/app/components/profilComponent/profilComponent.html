@@ -1,1 +1,21 @@
-<p>profil works!</p>
+<ng-container *ngIf="profil$ | async as profil">
+    <h1>Profile</h1>
+    <p>Pseudo : {{ profil.pseudo }}</p>
+    <p>Email : {{ profil.email }}</p>
+    <p>Ville par défaut : {{ profil.villeDefaut }}</p>
+</ng-container>
+
+<h1>Fav</h1>
+<ng-container *ngIf="favoris$ | async as favoris">
+    <div *ngFor="let favori of favoris">
+        <p>Ville : {{ favori.ville }}</p>
+    </div>
+</ng-container>
+
+<h1>Notes</h1>
+<ng-container *ngIf="notes$ | async as notes">
+    <div *ngFor="let note of notes">
+        <p>Ville : {{ note.ville }}, Pays : {{ note.pays }}, Note : {{ note.note }}, Data : {{ note.date }} </p>
+        
+    </div>
+</ng-container>
