@@ -1,6 +1,24 @@
 <h1>Accueil</h1>
 <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
+<input type="date" [(ngModel)]="date">
 <button (click)="meteo()">Rechercher</button><br>
-<a routerLink="/profile">Profile</a><br>
+<div *ngIf="meteoActuelle">
+    <h2>{{ meteoActuelle.ville }}, {{ meteoActuelle.pays }}</h2>
+    <p>Température : {{ meteoActuelle.temperature }}°C</p>
+    <p>Condition : {{ meteoActuelle.conditionDescription }}</p>
+    <p>Vent : {{ meteoActuelle.vent }} km/h</p>
+    <p>Humidité : {{ meteoActuelle.humidite }}%</p>
+</div>
+
+<div *ngIf="meteoPrevisions">
+    <h3>Prévisions</h3>
+    <div *ngFor="let prev of meteoPrevisions.previsions">
+        <p>{{ prev.heure }} - {{ prev.temperature }}°C - {{ prev.conditionDescription }}</p>
+    </div>
+</div>
+<button (click)="ajouterFavori()" [disabled]="estFavori" [class.gris]="estFavori">
+    {{ estFavori ? 'Déjà en favori' : 'Ajouter aux favoris' }}
+</button><br><br>
+<button (click)="profile()">Profile</button><br>
 <button (click)="deconnexion()">Dexonexion</button>
 

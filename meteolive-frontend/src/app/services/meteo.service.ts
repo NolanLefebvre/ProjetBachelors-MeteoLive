@@ -22,10 +22,11 @@ private apiUrl = 'http://localhost:8000/api';
       headers: this.getHeaders()
     });
   }
-  getMeteoprevision(nomVille: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/meteo/${nomVille}/previsions`, {
-      headers: this.getHeaders()
+  getMeteoprevision(nomVille: string, date: string = ''): Observable<any> {
+    const params = date ? `?date=${date}` : '';
+    return this.http.get(`${this.apiUrl}/meteo/${nomVille}/previsions${params}`, {
+        headers: this.getHeaders()
     });
-  }
+}
 
 }

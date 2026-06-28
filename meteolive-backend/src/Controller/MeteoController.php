@@ -96,7 +96,8 @@ class MeteoController extends AbstractController
     #[Route('/meteo/{nomVille}/previsions', name: 'api_meteo_previsions', methods: ['GET'])]
     public function getPrevisions(
         string $nomVille,
-        HttpClientInterface $httpClient
+        HttpClientInterface $httpClient,
+        Request $request
     ): JsonResponse {
 
     $apiKey = $_ENV['OPENWEATHER_API_KEY'];
@@ -115,7 +116,7 @@ class MeteoController extends AbstractController
     $data = $response->toArray();
 
      $heuresFiltre = ['09:00:00', '12:00:00', '15:00:00', '18:00:00', '21:00:00'];
-     $date = (new \DateTime())->format('Y-m-d');
+     $date = $request->query->get('date', (new \DateTime())->format('Y-m-d'));
      $previsions = [];
 
     foreach ($data['list'] as $item) {

@@ -33,4 +33,12 @@ getNotes(): Observable<any> {
         })
     });
 }
+
+addFav(nomVille: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/me/favoris`, { nomVille }, {
+        headers: new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        })
+    });
+}
 }
