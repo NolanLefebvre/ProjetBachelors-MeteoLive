@@ -1,0 +1,42 @@
+<h1>Classements</h1>
+
+<div *ngIf="classementMeteo">
+    <h2>Villes les plus chaudes</h2>
+<ol>
+  <li *ngFor="let ville of classementMeteo?.plus_chaudes">
+    {{ ville.ville }} - {{ ville.temperature }}°C
+  </li>
+</ol>
+<h2>Villes les plus froides</h2>
+
+<ol>
+  <li *ngFor="let ville of classementMeteo?.plus_froides">
+    {{ ville.ville }} - {{ ville.temperature }}°C
+  </li>
+</ol>
+
+<h2>Villes les plus venteuses</h2>
+
+<ol>
+  <li *ngFor="let ville of classementMeteo?.plus_venteuses">
+    {{ ville.ville }} - {{ ville.vent }}m/s
+  </li>
+</ol>
+
+<h2>Villes les mieux noter</h2>
+
+<ol>
+  <li *ngFor="let ville of classementNotes?.meilleurs">
+    {{ ville.ville }} - {{ ville.moyenne }}
+  </li>
+</ol>
+
+<h2>Villes les moins bien noter</h2>
+
+<ol>
+  <li *ngFor="let ville of classementNotes?.pires">
+    {{ ville.ville }} - {{ ville.moyenne }}
+  </li>
+</ol>
+</div>
+

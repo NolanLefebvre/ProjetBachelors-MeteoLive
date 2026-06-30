@@ -27,7 +27,11 @@ export class accueilComponent {
   villeAffichee: string = '';
   mapUrl: SafeResourceUrl = '';
 
-  meteo(){
+
+meteo(){
+    this.meteoPrevisions = null;
+    this.meteoActuelle = null;
+    this.cdr.detectChanges();
     this.villeAffichee = this.nomVille.charAt(0).toUpperCase() + this.nomVille.slice(1).toLowerCase();
     this.nomVille = this.villeAffichee;
 
@@ -93,15 +97,17 @@ getMapUrl(): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
 }
   ngOnInit(): void {
-    this.profilService.getProfil().subscribe(data => {
-        if (data.villeDefaut) {
-            this.nomVille = data.villeDefaut;
-            this.meteo();
-        } else {
-            this.localiser();
-        }
-    });
-}
+    setTimeout(() => {
+        this.profilService.getProfil().subscribe(data => {
+            if (data.villeDefaut) {
+                this.nomVille = data.villeDefaut;
+                this.meteo();
+            } else {
+                this.localiser();
+            }
+        });
+    }, 0);
+}   
 
 
 }
