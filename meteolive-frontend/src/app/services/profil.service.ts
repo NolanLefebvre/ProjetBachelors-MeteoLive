@@ -41,4 +41,21 @@ addFav(nomVille: string): Observable<any> {
         })
     });
 }
+
+deleteFavori(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/me/favoris/${id}`, {
+        headers: new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        })
+    });
+}
+
+addNote(nomVille: string, note: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/me/notes`, { nomVille, note }, {
+        headers: new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        })
+    });
+}
+
 }

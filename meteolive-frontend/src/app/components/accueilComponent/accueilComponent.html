@@ -2,12 +2,23 @@
 <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
 <input type="date" [(ngModel)]="date">
 <button (click)="meteo()">Rechercher</button><br>
+
 <div *ngIf="meteoActuelle">
     <h2>{{ meteoActuelle.ville }}, {{ meteoActuelle.pays }}</h2>
     <p>Température : {{ meteoActuelle.temperature }}°C</p>
     <p>Condition : {{ meteoActuelle.conditionDescription }}</p>
     <p>Vent : {{ meteoActuelle.vent }} km/h</p>
     <p>Humidité : {{ meteoActuelle.humidite }}%</p>
+
+    
+
+    <br>
+
+    <div *ngIf="!dejaNote">
+    <input type="number" [(ngModel)]="note" min="1" max="5">
+    <button (click)="ajoutNote()">Noter</button>
+</div>
+<button *ngIf="dejaNote" disabled>Déjà noté</button>
 </div>
 
 <div *ngIf="meteoPrevisions">
@@ -17,8 +28,5 @@
     </div>
 </div>
 <button (click)="ajouterFavori()" [disabled]="estFavori" [class.gris]="estFavori">
-    {{ estFavori ? 'Déjà en favori' : 'Ajouter aux favoris' }}
-</button><br><br>
-<button (click)="profile()">Profile</button><br>
-<button (click)="deconnexion()">Dexonexion</button>
-
+        {{ estFavori ? 'Déjà en favori' : 'Ajouter aux favoris' }}
+    </button>

@@ -9,6 +9,7 @@
 <ng-container *ngIf="favoris$ | async as favoris">
     <div *ngFor="let favori of favoris">
         <p>Ville : {{ favori.ville }}</p>
+        <button (click)="supprimerFavori(favori.id)">Supprimer</button>
     </div>
 </ng-container>
 
@@ -20,4 +21,3 @@
     </div>
 </ng-container>
 
-<button (click)="accueil()">Accueil</button><br>

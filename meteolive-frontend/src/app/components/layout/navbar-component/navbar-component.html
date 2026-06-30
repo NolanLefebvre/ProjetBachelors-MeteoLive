@@ -1,0 +1,4 @@
+<a routerLink="/accueil">Accueil</a>
+<a *ngIf="connecter() === true" routerLink="/profile">Profile</a>
+<a *ngIf="connecter() === true" (click)="deconnexion()">Deconnexion</a>
+<a *ngIf="connecter() === false" routerLink="/connexion">Connexion</a>

@@ -20,24 +20,21 @@ export class accueilComponent {
   meteoPrevisions: any = null;
   favoris: any[] = [];
   estFavori: boolean = false;
+  note: number = 0;
+  dejaNote :boolean= false;
 
-  deconnexion(){
-    console.log("deconnexion")
-    localStorage.removeItem('token');
-    this.router.navigate(['/connexion']);
-  }
-
-  profile(){
-    this.router.navigate(['/profile']);
-  }
   meteo(){
     this.nomVille = this.nomVille.charAt(0).toUpperCase() + this.nomVille.slice(1).toLowerCase();
+    this.estFavori = false;
+    this.dejaNote = false;
     const aujourdhui = new Date().toISOString().split('T')[0];
     if (!this.date || this.date === aujourdhui) {
         this.meteoService.getMeteo(this.nomVille).subscribe(data => {
             this.meteoActuelle = data;
             this.cdr.detectChanges();
         });
+    }else {
+        this.meteoActuelle = null;
     }
     this.meteoService.getMeteoprevision(this.nomVille, this.date).subscribe(data => {
         this.meteoPrevisions = data;
@@ -51,12 +48,28 @@ export class accueilComponent {
     console.log('estFavori', this.estFavori);
     this.cdr.detectChanges();
 });
+
+this.profilService.getNotes().subscribe(data => {
+        const aujourdhui = new Date().toISOString().split('T')[0];
+        this.dejaNote = data.some((n: any) => 
+            n.ville === this.nomVille && n.date.split(' ')[0] === aujourdhui
+        );
+        this.cdr.detectChanges();
+    });
 }
 
 ajouterFavori(){
     this.profilService.addFav(this.nomVille).subscribe(data => {
         console.log(data);
         this.estFavori = true;
+        this.cdr.detectChanges();
+    });
+}
+
+ajoutNote(){
+    this.profilService.addNote(this.nomVille,this.note).subscribe(data => {
+        this.dejaNote = true;
+        console.log(data);
         this.cdr.detectChanges();
     });
 }
