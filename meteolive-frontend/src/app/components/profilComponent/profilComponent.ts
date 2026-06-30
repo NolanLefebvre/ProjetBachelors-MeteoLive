@@ -3,10 +3,11 @@ import { ProfilService } from '../../services/profil.service';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import {  FormsModule ,} from '@angular/forms';
 
 @Component({
   selector: 'app-profil',
-  imports: [CommonModule, AsyncPipe],
+  imports: [CommonModule, AsyncPipe,FormsModule],
   templateUrl: './profilComponent.html',
   styleUrl: './profilComponent.scss',
 })
@@ -15,6 +16,7 @@ export class profilComponent {
   profil$: Observable<any>;
   favoris$: Observable<any>;
   notes$: Observable<any>;
+  nomVille: string = '';
 
   constructor(private profilService: ProfilService,private router: Router,private cdr: ChangeDetectorRef) {
     
@@ -22,6 +24,13 @@ export class profilComponent {
     this.favoris$ = this.profilService.getFavoris();
     this.notes$ = this.profilService.getNotes();
   }
+  villedefault(){
+    this.profilService.villedefault(this.nomVille).subscribe(data => {
+        console.log(data);
+        this.profil$ = this.profilService.getProfil();
+        this.cdr.detectChanges();
+    });
+}
   supprimerFavori(id: number){
       this.profilService.deleteFavori(id).subscribe(data => {
           console.log(data);

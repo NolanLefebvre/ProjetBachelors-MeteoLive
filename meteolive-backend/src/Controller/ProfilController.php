@@ -140,10 +140,22 @@ class ProfilController extends AbstractController
             return $this->json(['message' => 'Ville introuvable, consultez d\'abord la météo de cette ville'], 404);
         }
 
-        $existingNote = $em->getRepository(Note::class)->findOneBy([
-            'utilisateur' => $user,
-            'ville' => $ville
-        ]);
+        $timezone = new \DateTimeZone('Europe/Paris');
+        $aujourdhui = new \DateTime('now', $timezone);
+        $aujourdhui->setTime(0, 0, 0);
+        $demain = (clone $aujourdhui)->modify('+1 day');
+
+        $existingNote = $em->getRepository(Note::class)->createQueryBuilder('n')
+            ->where('n.utilisateur = :user')
+            ->andWhere('n.ville = :ville')
+            ->andWhere('n.date >= :aujourdhui')
+            ->andWhere('n.date < :demain')
+            ->setParameter('user', $user)
+            ->setParameter('ville', $ville)
+            ->setParameter('aujourdhui', $aujourdhui)
+            ->setParameter('demain', $demain)
+            ->getQuery()
+            ->getOneOrNullResult();
 
         if ($existingNote) {
             return $this->json(['message' => 'Vous avez deja noté cette ville'], 409);

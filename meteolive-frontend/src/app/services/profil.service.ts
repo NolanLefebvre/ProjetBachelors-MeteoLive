@@ -57,5 +57,12 @@ addNote(nomVille: string, note: number): Observable<any> {
         })
     });
 }
+villedefault(nomVille: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/me/ville-defaut`, { nomVille }, {
+        headers: new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        })
+    });
+}
 
 }
