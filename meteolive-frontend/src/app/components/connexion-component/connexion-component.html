@@ -1,13 +1,24 @@
-<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <input type="text" name="email" ngModel required>
-      <input type="password" name="password" ngModel required>
-      
-      <!-- Désactive le bouton si le formulaire n'est pas valide -->
-      <button type="submit" [disabled]="!loginForm.valid">
-        Login
-      </button>
-    </form>
+<div class="connexion-container">
+    <div class="connexion-card">
+        <h1>Connexion</h1>
+        <p class="subtitle">Bienvenue sur MétéoLive</p>
 
-    <button (click)="inscription()">
-  S'inscrire
-</button>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+            <div class="form-group">
+                <label>Adresse e-mail</label>
+                <input type="email" name="email" ngModel required placeholder="Votre adresse mail">
+            </div>
+
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input type="password" name="password" ngModel required placeholder="Votre mot de passe">
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="!loginForm.valid">
+                Se connecter
+            </button>
+        </form>
+
+        <p class="redirect">Pas encore inscrit ? <a (click)="inscription()">S'inscrire</a></p>
+    </div>
+</div>  

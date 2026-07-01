@@ -1,5 +1,13 @@
-<a routerLink="/accueil">Accueil</a>
-<a *ngIf="connecter() === true" routerLink="/classements">Classements</a>
-<a *ngIf="connecter() === true" routerLink="/profile">Profile</a>
-<a *ngIf="connecter() === true" (click)="deconnexion()">Deconnexion</a>
-<a *ngIf="connecter() === false" routerLink="/connexion">Connexion</a>
+<nav class="navbar">
+    <div class="navbar-brand">
+    <img src="/assets/logo.png" alt="MétéoLive" class="brand-logo">
+   
+</div>
+    <div class="navbar-links">
+        <a *ngIf="connecter()" routerLink="/accueil" routerLinkActive="active">Accueil</a>
+        <a *ngIf="connecter()" routerLink="/classements" routerLinkActive="active">Classements</a>
+        <a *ngIf="!connecter()" routerLink="/connexion" routerLinkActive="active">Connexion</a>
+        <a *ngIf="connecter()" routerLink="/profile" routerLinkActive="active">Profil</a>
+        <a *ngIf="connecter()" class="deconnexion" (click)="deconnexion()">Déconnexion</a>
+    </div>
+</nav>

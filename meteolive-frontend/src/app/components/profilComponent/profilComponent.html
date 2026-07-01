@@ -3,7 +3,6 @@
     <p>Pseudo : {{ profil.pseudo }}</p>
     <p>Email : {{ profil.email }}</p>
     <p>Ville par défaut : </p>
-    <h3>Ville par défaut</h3>
     <input type="text" [(ngModel)]="nomVille" [placeholder]="profil.villeDefaut || 'Aucune ville par défaut'">
     <button (click)="villedefault()">Enregistrer</button>
     

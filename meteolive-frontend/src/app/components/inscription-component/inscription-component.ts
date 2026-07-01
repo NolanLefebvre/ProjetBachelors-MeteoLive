@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 export class InscriptionComponent {
 
     constructor( private authService: AuthService,private router: Router) {}
-  
+  connexion(){
+    this.router.navigate(['/connexion']);
+  }
+
   onSubmit(form: NgForm) {
     if (form.valid) {
         this.authService.register(
