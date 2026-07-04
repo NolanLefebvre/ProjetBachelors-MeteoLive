@@ -1,38 +1,60 @@
-<h1>Accueil</h1>
-<input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
-<input type="date" #dateInput [min]="dateMin" [max]="dateMax" (change)="date = dateInput.value">
-<button (click)="meteo()">Rechercher</button><br>
+<div class="accueil-container">
 
-<div *ngIf="meteoPrevisions" style="position: relative;">
-    <iframe
-    width="100%"
-    height="300"
-    style="border:0; pointer-events: none;"
-    [src]="mapUrl"
-    allowfullscreen>
-</iframe>
-</div>
-
-<div *ngIf="meteoActuelle">
-    <h2>{{ meteoActuelle.ville }}, {{ meteoActuelle.pays }}</h2>
-    <p>Température : {{ meteoActuelle.temperature }}°C</p>
-    <p>Condition : {{ meteoActuelle.conditionDescription }}</p>
-    <p>Vent : {{ meteoActuelle.vent }} km/h</p>
-    <p>Humidité : {{ meteoActuelle.humidite }}%</p>
-    <br>
-    <div *ngIf="!dejaNote">
-        <input type="number" [(ngModel)]="note" min="1" max="5">
-        <button (click)="ajoutNote()">Noter</button>
+    <div class="search-bar">
+        <div class="search-ville">
+            
+            <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
+            <button (click)="meteo()">🔍</button>
+        </div>
+        <div class="search-date">
+            <span>📅</span>
+            <input type="date" #dateInput [min]="dateMin" [max]="dateMax" (change)="date = dateInput.value">
+            
+        </div>
     </div>
-    <button *ngIf="dejaNote" disabled>Déjà noté</button>
-</div>
 
-<div *ngIf="meteoPrevisions">
-    <h3>Prévisions</h3>
-    <div *ngFor="let prev of meteoPrevisions.previsions">
-        <p>{{ prev.heure }} - {{ prev.temperature }}°C - {{ prev.conditionDescription }}</p>
+    <div *ngIf="meteoPrevisions" class="map-container">
+        <iframe width="100%" height="300" style="border:0; pointer-events: none;" [src]="mapUrl" allowfullscreen></iframe>
     </div>
-    <button (click)="ajouterFavori()" [disabled]="estFavori" [class.gris]="estFavori">
-        {{ estFavori ? 'Déjà en favori' : 'Ajouter aux favoris' }}
-    </button>
+
+    <div *ngIf="meteoActuelle || meteoPrevisions" class="meteo-card">
+        <h2 class="meteo-titre">{{ villeAffichee }}{{ titreDateAffichee ? ', ' + titreDateAffichee : '' }}</h2>
+
+        <div class="meteo-content">
+
+            <div *ngIf="meteoActuelle" class="meteo-actuelle">
+                <div class="temperature">
+                    <span class="temp-value">{{ meteoActuelle.temperature }}°C</span>
+                    <span class="temp-condition">{{ meteoActuelle.conditionDescription }}</span>
+                </div>
+                <div class="meteo-details">
+                    <span>💨 Vent : {{ meteoActuelle.vent }} km/h</span>
+                    <span>💧 Humidité : {{ meteoActuelle.humidite }}%</span>
+                </div>
+                <div class="note-section">
+                    <div *ngIf="!dejaNote" class="note-form">
+                        <input type="number" [(ngModel)]="note" min="1" max="5" placeholder="Note /5">
+                        <button class="btn-noter" (click)="ajoutNote()">Noter</button>
+                    </div>
+                    <button *ngIf="dejaNote" class="btn-deja-note" disabled>Déjà noté</button>
+                </div>
+            </div>
+
+            <div *ngIf="meteoPrevisions" class="previsions" [class.full-width]="!meteoActuelle">
+                <h3>Prévisions {{ titreDateAffichee ? 'du ' + titreDateAffichee : "d'aujourd'hui" }}</h3>
+                <div class="previsions-list">
+                    <div *ngFor="let prev of meteoPrevisions.previsions" class="prev-item">
+                        <span class="prev-heure">{{ prev.heure }}</span>
+                        <span class="prev-temp">{{ prev.temperature }}°</span>
+                        <span class="prev-condition">{{ prev.conditionDescription }}</span>
+                    </div>
+                </div>
+                <button class="btn-favori" (click)="ajouterFavori()" [disabled]="estFavori">
+                    {{ estFavori ? '❤️ Déjà en favori' : '🤍 Ajouter aux favoris' }}
+                </button>
+            </div>
+
+        </div>
+    </div>
+
 </div>
