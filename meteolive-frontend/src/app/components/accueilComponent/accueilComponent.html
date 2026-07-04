@@ -1,40 +1,38 @@
-    <h1>Accueil</h1>
-    <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
-    <input type="date" [(ngModel)]="date">
-    <button (click)="meteo()">Rechercher</button><br>
-    <div *ngIf="meteoPrevisions" style="position: relative;">
-        <iframe
-        width="100%"
-        height="300"
-        style="border:0; pointer-events: none;"
-        [src]="mapUrl"
-        allowfullscreen>
-    </iframe>
-    </div>
-    <div *ngIf="meteoActuelle">
-        <h2>{{ meteoActuelle.ville }}, {{ meteoActuelle.pays }}</h2>
-        <p>Température : {{ meteoActuelle.temperature }}°C</p>
-        <p>Condition : {{ meteoActuelle.conditionDescription }}</p>
-        <p>Vent : {{ meteoActuelle.vent }} km/h</p>
-        <p>Humidité : {{ meteoActuelle.humidite }}%</p>
+<h1>Accueil</h1>
+<input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
+<input type="date" #dateInput [min]="dateMin" [max]="dateMax" (change)="date = dateInput.value">
+<button (click)="meteo()">Rechercher</button><br>
 
-        
+<div *ngIf="meteoPrevisions" style="position: relative;">
+    <iframe
+    width="100%"
+    height="300"
+    style="border:0; pointer-events: none;"
+    [src]="mapUrl"
+    allowfullscreen>
+</iframe>
+</div>
 
-        <br>
-
-        <div *ngIf="!dejaNote">
+<div *ngIf="meteoActuelle">
+    <h2>{{ meteoActuelle.ville }}, {{ meteoActuelle.pays }}</h2>
+    <p>Température : {{ meteoActuelle.temperature }}°C</p>
+    <p>Condition : {{ meteoActuelle.conditionDescription }}</p>
+    <p>Vent : {{ meteoActuelle.vent }} km/h</p>
+    <p>Humidité : {{ meteoActuelle.humidite }}%</p>
+    <br>
+    <div *ngIf="!dejaNote">
         <input type="number" [(ngModel)]="note" min="1" max="5">
         <button (click)="ajoutNote()">Noter</button>
     </div>
     <button *ngIf="dejaNote" disabled>Déjà noté</button>
-    </div>
+</div>
 
-    <div *ngIf="meteoPrevisions">
-        <h3>Prévisions</h3>
-        <div *ngFor="let prev of meteoPrevisions.previsions">
-            <p>{{ prev.heure }} - {{ prev.temperature }}°C - {{ prev.conditionDescription }}</p>
-        </div>
-        <button (click)="ajouterFavori()" [disabled]="estFavori" [class.gris]="estFavori">
-            {{ estFavori ? 'Déjà en favori' : 'Ajouter aux favoris' }}
-        </button>
+<div *ngIf="meteoPrevisions">
+    <h3>Prévisions</h3>
+    <div *ngFor="let prev of meteoPrevisions.previsions">
+        <p>{{ prev.heure }} - {{ prev.temperature }}°C - {{ prev.conditionDescription }}</p>
     </div>
+    <button (click)="ajouterFavori()" [disabled]="estFavori" [class.gris]="estFavori">
+        {{ estFavori ? 'Déjà en favori' : 'Ajouter aux favoris' }}
+    </button>
+</div>

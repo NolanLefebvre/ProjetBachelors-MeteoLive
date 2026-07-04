@@ -8,6 +8,7 @@ import { ProfilService } from '../../services/profil.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-accueil',
   imports: [FormsModule,CommonModule ],
@@ -26,9 +27,14 @@ export class accueilComponent {
   dejaNote :boolean= false;
   villeAffichee: string = '';
   mapUrl: SafeResourceUrl = '';
-
-
+  titreDateAffichee: string = '';
+  dateMin: string = new Date().toISOString().split('T')[0];
+dateMax: string = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+logDate(){
+    console.log('date changée', this.date);
+}
 meteo(){
+    this.titreDateAffichee = this.date ? new Date(this.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
     this.meteoPrevisions = null;
     this.meteoActuelle = null;
     this.cdr.detectChanges();
@@ -49,7 +55,9 @@ meteo(){
     this.meteoActuelle = null;
     this.cdr.detectChanges();
 }
+
     this.meteoService.getMeteoprevision(this.nomVille, this.date).subscribe(data => {
+        console.log('Prévisions reçues :', data);
         this.meteoPrevisions = data;
         this.cdr.detectChanges();
     });
@@ -101,13 +109,14 @@ getMapUrl(): SafeResourceUrl {
         this.profilService.getProfil().subscribe(data => {
             if (data.villeDefaut) {
                 this.nomVille = data.villeDefaut;
+                this.villeAffichee = data.villeDefaut;
                 this.meteo();
             } else {
                 this.localiser();
             }
         });
-    }, 0);
-}   
+    }, 100);
+}
 
 
 }
