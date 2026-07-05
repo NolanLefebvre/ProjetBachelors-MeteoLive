@@ -30,6 +30,7 @@ export class accueilComponent {
   titreDateAffichee: string = '';
   dateMin: string = new Date().toISOString().split('T')[0];
 dateMax: string = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+heuresFixees: string[] = ['09:00', '12:00', '15:00', '18:00', '21:00'];
 logDate(){
     console.log('date changée', this.date);
 }
@@ -103,6 +104,10 @@ localiser(): void {
 getMapUrl(): SafeResourceUrl {
     const url = `https://maps.google.com/maps?q=${this.villeAffichee}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+}
+getPrevision(heure: string): any {
+    if (!this.meteoPrevisions?.previsions) return null;
+    return this.meteoPrevisions.previsions.find((p: any) => p.heure === heure) || null;
 }
   ngOnInit(): void {
     setTimeout(() => {

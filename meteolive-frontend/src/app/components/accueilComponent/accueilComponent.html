@@ -2,19 +2,17 @@
 
     <div class="search-bar">
         <div class="search-ville">
-            
             <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
             <button (click)="meteo()">🔍</button>
         </div>
         <div class="search-date">
             <span>📅</span>
             <input type="date" #dateInput [min]="dateMin" [max]="dateMax" (change)="date = dateInput.value">
-            
         </div>
     </div>
 
     <div *ngIf="meteoPrevisions" class="map-container">
-        <iframe width="100%" height="300" style="border:0; pointer-events: none;" [src]="mapUrl" allowfullscreen></iframe>
+        <iframe width="100%" height="250" style="border:0; pointer-events: none;" [src]="mapUrl" allowfullscreen></iframe>
     </div>
 
     <div *ngIf="meteoActuelle || meteoPrevisions" class="meteo-card">
@@ -22,31 +20,58 @@
 
         <div class="meteo-content">
 
-            <div *ngIf="meteoActuelle" class="meteo-actuelle">
-                <div class="temperature">
-                    <span class="temp-value">{{ meteoActuelle.temperature }}°C</span>
-                    <span class="temp-condition">{{ meteoActuelle.conditionDescription }}</span>
-                </div>
-                <div class="meteo-details">
-                    <span>💨 Vent : {{ meteoActuelle.vent }} km/h</span>
-                    <span>💧 Humidité : {{ meteoActuelle.humidite }}%</span>
-                </div>
-                <div class="note-section">
-                    <div *ngIf="!dejaNote" class="note-form">
-                        <input type="number" [(ngModel)]="note" min="1" max="5" placeholder="Note /5">
-                        <button class="btn-noter" (click)="ajoutNote()">Noter</button>
-                    </div>
-                    <button *ngIf="dejaNote" class="btn-deja-note" disabled>Déjà noté</button>
-                </div>
-            </div>
+            <div class="meteo-actuelle">
 
-            <div *ngIf="meteoPrevisions" class="previsions" [class.full-width]="!meteoActuelle">
+                <ng-container *ngIf="meteoActuelle">
+                    <div class="meteo-top">
+                        <div class="meteo-icone-principale">
+                            <img [src]="'https://openweathermap.org/img/wn/' + meteoActuelle.icone + '@2x.png'" alt="icone météo">
+                        </div>
+                        <div class="temperature">
+                            <span class="temp-value">{{ meteoActuelle.temperature }}°C</span>
+                            <span class="temp-condition">{{ meteoActuelle.conditionDescription }}</span>
+                        </div>
+                    </div>
+                    <div class="meteo-details">
+                        <span>💨 Vent : {{ meteoActuelle.vent }} km/h</span>
+                        <span>💧 Humidité : {{ meteoActuelle.humidite }}%</span>
+                    </div>
+                    <div class="note-section">
+                        <div *ngIf="!dejaNote" class="note-form">
+                            <input type="number" [(ngModel)]="note" min="1" max="5" placeholder="Note /5">
+                            <button class="btn-noter" (click)="ajoutNote()">Noter</button>
+                        </div>
+                        <button *ngIf="dejaNote" class="btn-deja-note" disabled>Déjà noté</button>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="!meteoActuelle && meteoPrevisions">
+                    <div class="meteo-indisponible">
+                        <span class="indispo-icon">📅</span>
+                        <p class="indispo-titre">Météo en temps réel indisponible</p>
+                        <p class="indispo-sub">La météo actuelle n'est disponible que pour aujourd'hui.</p>
+                    </div>
+                </ng-container>
+
+            </div>
+            <div class="separateur"></div>
+            <div *ngIf="meteoPrevisions" class="previsions">
                 <h3>Prévisions {{ titreDateAffichee ? 'du ' + titreDateAffichee : "d'aujourd'hui" }}</h3>
                 <div class="previsions-list">
-                    <div *ngFor="let prev of meteoPrevisions.previsions" class="prev-item">
-                        <span class="prev-heure">{{ prev.heure }}</span>
-                        <span class="prev-temp">{{ prev.temperature }}°</span>
-                        <span class="prev-condition">{{ prev.conditionDescription }}</span>
+                    <div *ngFor="let heure of heuresFixees" class="prev-item">
+                        <span class="prev-heure">{{ heure }}</span>
+                        <ng-container *ngIf="getPrevision(heure) as prev">
+                            <div class="prev-icone">
+                                <img [src]="'https://openweathermap.org/img/wn/' + prev.icone + '@2x.png'" alt="icone météo" width="40">
+                            </div>
+                            <span class="prev-temp">{{ prev.temperature }}°</span>
+                            <span class="prev-condition">{{ prev.conditionDescription }}</span>
+                        </ng-container>
+                        <ng-container *ngIf="!getPrevision(heure)">
+                            <div class="prev-icone"></div>
+                            <span class="prev-temp indispo">—</span>
+                            <span class="prev-condition indispo">n/a</span>
+                        </ng-container>
                     </div>
                 </div>
                 <button class="btn-favori" (click)="ajouterFavori()" [disabled]="estFavori">

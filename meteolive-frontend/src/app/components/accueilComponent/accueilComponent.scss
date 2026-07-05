@@ -1,12 +1,12 @@
 .accueil-container {
-    padding: 24px 40px;
+    padding: 16px 40px;
     max-width: 1200px;
     margin: 0 auto;
 
     .search-bar {
         display: flex;
         gap: 16px;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
 
         .search-ville {
             flex: 1;
@@ -15,13 +15,15 @@
             gap: 10px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            padding: 12px 20px;
+            padding: 10px 20px;
+
             button {
                 background: none;
                 border: none;
                 cursor: pointer;
                 font-size: 1.2rem;
             }
+
             input {
                 flex: 1;
                 border: none;
@@ -39,7 +41,7 @@
             gap: 10px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            padding: 12px 20px;
+            padding: 10px 20px;
 
             input {
                 border: none;
@@ -48,78 +50,95 @@
                 font-size: 1rem;
                 color: #2d4a7a;
             }
-
-            button {
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 1.2rem;
-            }
         }
     }
 
     .map-container {
         border-radius: 16px;
         overflow: hidden;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
     }
 
     .meteo-card {
         background: rgba(255, 255, 255, 0.25);
         backdrop-filter: blur(10px);
         border-radius: 20px;
-        padding: 32px;
+        padding: 20px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
         .meteo-titre {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #2d4a7a;
-            margin-bottom: 28px;
+            margin-bottom: 16px;
         }
 
         .meteo-content {
             display: flex;
-            gap: 40px;
+            gap: 16px;
+            align-items: stretch;
 
             .meteo-actuelle {
                 flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 150px;
+                text-align: center;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 16px;
+                padding: 16px;
 
-                .temperature {
+                .meteo-top {
                     display: flex;
-                    flex-direction: column;
-                    gap: 4px;
+                    align-items: center;
+                    gap: 16px;
 
-                    .temp-value {
-                        font-size: 3.5rem;
-                        font-weight: 700;
-                        color: #2d4a7a;
-                        line-height: 1;
+                    .meteo-icone-principale img {
+                        width: 70px;
+                        height: 70px;
+                        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
                     }
 
-                    .temp-condition {
-                        font-size: 1rem;
-                        color: #4a6a9a;
-                        text-transform: capitalize;
+                    .temperature {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 4px;
+
+                        .temp-value {
+                            font-size: 2.8rem;
+                            font-weight: 700;
+                            color: #2d4a7a;
+                            line-height: 1;
+                        }
+
+                        .temp-condition {
+                            font-size: 0.9rem;
+                            color: #4a6a9a;
+                            text-transform: capitalize;
+                        }
                     }
                 }
 
                 .meteo-details {
                     display: flex;
                     gap: 24px;
-                    margin-top: 16px;
+                    margin-top: 10px;
                     color: #4a6a9a;
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
+                    justify-content: center;
                 }
 
                 .note-section {
-                    margin-top: 24px;
+                    margin-top: 16px;
 
                     .note-form {
                         display: flex;
                         gap: 10px;
                         align-items: center;
+                        justify-content: center;
 
                         input {
                             width: 70px;
@@ -153,67 +172,87 @@
                         cursor: not-allowed;
                     }
                 }
+
+                .meteo-indisponible {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 12px;
+                    text-align: center;
+
+                    .indispo-icon { font-size: 2.5rem; }
+                    .indispo-titre { font-size: 1.1rem; font-weight: 600; color: #2d4a7a; }
+                    .indispo-sub { font-size: 0.85rem; color: #4a6a9a; }
+                }
+            }
+
+            .separateur {
+                width: 1px;
+                background: rgba(255, 255, 255, 0.5);
+                align-self: stretch;
             }
 
             .previsions {
                 flex: 1;
-                border-left: 1px solid rgba(255,255,255,0.5);
-                padding-left: 40px;
-
-                &.full-width {
-                    border-left: none;
-                    padding-left: 0;
-                    flex: 1;
-                }
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 16px;
+                padding: 16px;
 
                 h3 {
-                    font-size: 0.95rem;
+                    font-size: 0.9rem;
                     color: #4a6a9a;
-                    margin-bottom: 20px;
+                    margin-bottom: 12px;
                     font-weight: 500;
+                    text-align: center;
                 }
 
                 .previsions-list {
                     display: flex;
-                    gap: 16px;
-                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    gap: 8px;
 
                     .prev-item {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                         gap: 6px;
-                        min-width: 55px;
+                        flex: 1;
 
-                        .prev-heure {
-                            font-size: 0.8rem;
-                            color: #4a6a9a;
+                        .prev-heure { font-size: 0.8rem; color: #4a6a9a; font-weight: 500; }
+
+                        .prev-icone {
+                            width: 40px;
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                         }
 
-                        .prev-temp {
-                            font-size: 1.1rem;
-                            font-weight: 700;
-                            color: #2d4a7a;
-                        }
+                        .prev-temp { font-size: 1rem; font-weight: 700; color: #2d4a7a; }
 
-                        .prev-condition {
-                            font-size: 0.7rem;
-                            color: #6a8ab0;
-                            text-align: center;
-                            text-transform: capitalize;
+                        .prev-condition { font-size: 0.65rem; color: #6a8ab0; text-align: center; text-transform: capitalize; }
+
+                        .prev-temp.indispo, .prev-condition.indispo {
+                            color: rgba(74, 106, 154, 0.4);
                         }
                     }
                 }
 
                 .btn-favori {
-                    margin-top: 24px;
-                    padding: 10px 20px;
+                    margin-top: 16px;
+                    align-self: flex-start;
+                    padding: 8px 16px;
                     background: rgba(255,255,255,0.4);
                     border: 1px solid rgba(255,255,255,0.6);
                     border-radius: 10px;
                     cursor: pointer;
                     color: #2d4a7a;
                     font-weight: 600;
+                    font-size: 0.9rem;
                     transition: background 0.2s;
 
                     &:hover { background: rgba(255,255,255,0.6); }
@@ -231,11 +270,10 @@
         .meteo-card .meteo-content {
             flex-direction: column;
 
+            .separateur { display: none; }
+
             .previsions {
-                border-left: none;
-                border-top: 1px solid rgba(255,255,255,0.5);
-                padding-left: 0;
-                padding-top: 24px;
+                padding-top: 16px;
             }
         }
     }
