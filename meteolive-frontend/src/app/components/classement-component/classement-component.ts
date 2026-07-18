@@ -16,11 +16,10 @@ constructor( private classementsService: ClassementsService,private cdr: ChangeD
 ngOnInit(): void {
     this.classementsService.getClassementsMeteo().subscribe(data => {
       this.classementMeteo = data;
-      console.log(data)
+      this.cdr.detectChanges();
     });
     this.classementsService.getClassementsRessenti().subscribe(data => {
       this.classementNotes = data;
-      console.log(data)
       this.cdr.detectChanges();
     });
   }

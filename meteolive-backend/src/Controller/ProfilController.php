@@ -250,8 +250,8 @@ class ProfilController extends AbstractController
     if (!$data['unite']) {
         return $this->json(['message' => 'L\'unité est obligatoire'], 400);
     }
-    if (!in_array($data['unite'], ['celsius', 'fahrenheit'])) {
-        return $this->json(['message' => 'L\'unité doit être celsius ou fahrenheit'], 400);
+    if (!in_array($data['unite'], ['c', 'f'])) {
+    return $this->json(['message' => 'L\'unité doit être c ou f'], 400);
     }
     $user->setUnite($data['unite']);
     $em->flush();

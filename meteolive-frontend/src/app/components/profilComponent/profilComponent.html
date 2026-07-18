@@ -1,23 +1,21 @@
 <div class="profil-container" *ngIf="profil$ | async as profil">
 
-    <h1 class="profil-titre">Paramètres</h1>
+    
 
-    <div class="section-card ville-defaut-card">
-        <div class="section-content">
-            <h2>Ville par défaut</h2>
-            <p class="section-sub">Choisissez votre ville par défaut</p>
-            <div class="ville-defaut-form">
-                <div class="ville-input">
-                    <span>⭐</span>
-                    <input type="text" [(ngModel)]="nomVille" [placeholder]="profil.villeDefaut || 'Aucune ville par défaut'">
+    <div class="profil-card">
+<h1 class="profil-titre">Paramètres</h1>
+        <div class="top-grid">
+            <div class="section-card ville-defaut-card">
+                <h2>Ville par défaut</h2>
+                <p class="section-sub">Choisissez votre ville par défaut</p>
+                <div class="ville-defaut-form">
+                    <div class="ville-input">
+                        <span>⭐</span>
+                        <input type="text" [(ngModel)]="nomVille" [placeholder]="profil.villeDefaut || 'Aucune ville par défaut'">
+                    </div>
+                    <button class="btn-enregistrer" (click)="villedefault()">Enregistrer</button>
                 </div>
-                <button class="btn-enregistrer" (click)="villedefault()">Enregistrer</button>
             </div>
-        </div>
-    </div>
-
-    <div class="sections-grid">
-        <div class="col-gauche">
 
             <div class="section-card">
                 <h2>Unités de mesure</h2>
@@ -27,32 +25,37 @@
                     <button class="unite-btn">°F</button>
                 </div>
             </div>
-
-            <div class="section-card">
-                <h2>Mes dernières notes</h2>
-                <p class="section-sub">Consultez vos dernières notes météo</p>
-                <ng-container *ngIf="notes$ | async as notes">
-    <div class="note-item" *ngFor="let note of $any(notes)">
-                        <span class="note-star">⭐</span>
-                        <span class="note-ville">{{ note.ville }}</span>
-                        <span class="note-date">{{ note.date | date:'d MMMM' }}</span>
-                        <span class="note-valeur">{{ note.note }}</span>
-                    </div>
-                </ng-container>
-            </div>
         </div>
-        <div class="col-droite">
-            <div class="section-card favoris-card">
-                <h2>Mes villes favorites</h2>
-                <p class="section-sub">Gérez votre liste de villes favorites</p>
-                <div class="favoris-list">
-                    <ng-container *ngIf="favoris$ | async as favoris">
-                        <div class="favori-item" *ngFor="let favori of favoris">
-                            <span class="fav-star">⭐</span>
-                            <span class="fav-ville" (click)="favsVille(favori.ville)">{{ favori.ville }}, {{ favori.pays }}</span>
-                            <button class="btn-supprimer" (click)="supprimerFavori(favori.id)">🗑️</button>
+
+        <div class="sections-grid">
+            <div class="col-gauche">
+                <div class="section-card">
+                    <h2>Mes dernières notes</h2>
+                    <p class="section-sub">Consultez vos dernières notes météo</p>
+                    <ng-container *ngIf="notes$ | async as notes">
+                        <div class="note-item" *ngFor="let note of $any(notes)">
+                            <span class="note-star">⭐</span>
+                            <span class="note-ville">{{ note.ville }}</span>
+                            <span class="note-date">{{ note.date | date:'d MMMM' }}</span>
+                            <span class="note-valeur">{{ note.note }}</span>
                         </div>
                     </ng-container>
+                </div>
+            </div>
+
+            <div class="col-droite">
+                <div class="section-card favoris-card">
+                    <h2>Mes villes favorites</h2>
+                    <p class="section-sub">Gérez votre liste de villes favorites</p>
+                    <div class="favoris-list">
+                        <ng-container *ngIf="favoris$ | async as favoris">
+                            <div class="favori-item" *ngFor="let favori of favoris">
+                                <span class="fav-star">⭐</span>
+                                <span class="fav-ville" (click)="favsVille(favori.ville)">{{ favori.ville }}, {{ favori.pays }}</span>
+                                <button class="btn-supprimer" (click)="supprimerFavori(favori.id)">🗑️</button>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
