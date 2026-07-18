@@ -1,0 +1,89 @@
+.classement-container {
+    padding: 24px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .classement-card {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+        .classement-columns {
+            display: flex;
+            gap: 32px;
+
+            .classement-col {
+                flex: 1;
+
+                .col-titre {
+                    font-size: 1.3rem;
+                    font-weight: 700;
+                    color: #2d4a7a;
+                    margin-bottom: 20px;
+                }
+
+                .classement-bloc {
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 16px;
+                    overflow: hidden;
+                    margin-bottom: 16px;
+
+                    .bloc-header {
+                        background: rgba(100, 150, 220, 0.3);
+                        padding: 10px 16px;
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        color: #2d4a7a;
+                    }
+
+                    .bloc-list {
+                        padding: 8px 0;
+
+                        .bloc-item {
+                            display: flex;
+                            align-items: center;
+                            padding: 10px 16px;
+                            gap: 12px;
+                            border-bottom: 1px solid rgba(255,255,255,0.3);
+
+                            &:last-child { border-bottom: none; }
+
+                            .rang { font-size: 1.2rem; width: 30px; }
+
+                            .ville-nom {
+                                flex: 1;
+                                font-size: 0.95rem;
+                                color: #2d4a7a;
+                                font-weight: 500;
+                            }
+
+                            .valeur {
+                                font-size: 0.9rem;
+                                font-weight: 700;
+                                padding: 4px 12px;
+                                border-radius: 20px;
+                                color: white;
+
+                                &.chaude { background: #e67e22; }
+                                &.froide { background: #7fb3d3; }
+                                &.vent { background: transparent; color: #2d4a7a; font-weight: 700; }
+                                &.meilleur { background: #e67e22; }
+                                &.pire { background: #7fb3d3; }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 16px;
+
+        .classement-card .classement-columns {
+            flex-direction: column;
+        }
+    }
+}

@@ -1,42 +1,70 @@
-<h1>Classements</h1>
+<div class="classement-container">
 
-<div *ngIf="classementMeteo">
-    <h2>Villes les plus chaudes</h2>
-<ol>
-  <li *ngFor="let ville of classementMeteo?.plus_chaudes">
-    {{ ville.ville }} - {{ ville.temperature }}°C
-  </li>
-</ol>
-<h2>Villes les plus froides</h2>
+    <div class="classement-card">
 
-<ol>
-  <li *ngFor="let ville of classementMeteo?.plus_froides">
-    {{ ville.ville }} - {{ ville.temperature }}°C
-  </li>
-</ol>
+        <div class="classement-columns" *ngIf="classementMeteo">
 
-<h2>Villes les plus venteuses</h2>
+            <div class="classement-col">
+                <h2 class="col-titre">Classements météo</h2>
 
-<ol>
-  <li *ngFor="let ville of classementMeteo?.plus_venteuses">
-    {{ ville.ville }} - {{ ville.vent }}km/h
-  </li>
-</ol>
+                <div class="classement-bloc">
+                    <div class="bloc-header">☀️ Ville la plus chaude</div>
+                    <div class="bloc-list">
+                        <div *ngFor="let ville of classementMeteo?.plus_chaudes; let i = index" class="bloc-item">
+                            <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
+                            <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>
+                            <span class="valeur chaude">{{ ville.temperature }}°C</span>
+                        </div>
+                    </div>
+                </div>
 
-<h2>Villes les mieux noter</h2>
+                <div class="classement-bloc">
+                    <div class="bloc-header">❄️ Ville la plus froide</div>
+                    <div class="bloc-list">
+                        <div *ngFor="let ville of classementMeteo?.plus_froides; let i = index" class="bloc-item">
+                            <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
+                            <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>
+                            <span class="valeur froide">{{ ville.temperature }}°C</span>
+                        </div>
+                    </div>
+                </div>
 
-<ol>
-  <li *ngFor="let ville of classementNotes?.meilleurs">
-    {{ ville.ville }} - {{ ville.moyenne }}
-  </li>
-</ol>
+                <div class="classement-bloc">
+                    <div class="bloc-header">💨 Ville la plus venteuse</div>
+                    <div class="bloc-list">
+                        <div *ngFor="let ville of classementMeteo?.plus_venteuses; let i = index" class="bloc-item">
+                            <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
+                            <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>
+                            <span class="valeur vent">{{ ville.vent }} km/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<h2>Villes les moins bien noter</h2>
+            <div class="classement-col">
+                <h2 class="col-titre">Classements ressenti</h2>
+                <div class="classement-bloc">
+                    <div class="bloc-header">😊 Meilleur ressenti</div>
+                    <div class="bloc-list">
+                        <div *ngFor="let ville of classementNotes?.meilleurs; let i = index" class="bloc-item">
+                            <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
+                            <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>
+                            <span class="valeur meilleur">{{ ville.moyenne }}</span>
+                        </div>
+                    </div>
+                </div>
 
-<ol>
-  <li *ngFor="let ville of classementNotes?.pires">
-    {{ ville.ville }} - {{ ville.moyenne }}
-  </li>
-</ol>
+                <div class="classement-bloc">
+                    <div class="bloc-header">😞 Pire ressenti</div>
+                    <div class="bloc-list">
+                        <div *ngFor="let ville of classementNotes?.pires; let i = index" class="bloc-item">
+                            <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
+                            <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>
+                            <span class="valeur pire">{{ ville.moyenne }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-

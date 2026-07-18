@@ -7,7 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { ProfilService } from '../../services/profil.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-accueil',
@@ -16,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './accueilComponent.scss',
 })
 export class accueilComponent {
-  constructor(private http: HttpClient,private meteoService: MeteoService,private router: Router,private cdr: ChangeDetectorRef, private profilService:ProfilService, private sanitizer: DomSanitizer) {}
+  constructor(private route: ActivatedRoute,private http: HttpClient,private meteoService: MeteoService,private router: Router,private cdr: ChangeDetectorRef, private profilService:ProfilService, private sanitizer: DomSanitizer) {}
   nomVille: string = '';
   date: string = '';
   meteoActuelle: any = null;
@@ -111,13 +111,20 @@ getPrevision(heure: string): any {
 }
   ngOnInit(): void {
     setTimeout(() => {
-        this.profilService.getProfil().subscribe(data => {
-            if (data.villeDefaut) {
-                this.nomVille = data.villeDefaut;
-                this.villeAffichee = data.villeDefaut;
+        this.route.queryParams.subscribe(params => {
+            if (params['ville']) {
+                this.nomVille = params['ville'];
                 this.meteo();
             } else {
-                this.localiser();
+                this.profilService.getProfil().subscribe(data => {
+                    if (data.villeDefaut) {
+                        this.nomVille = data.villeDefaut;
+                        this.villeAffichee = data.villeDefaut;
+                        this.meteo();
+                    } else {
+                        this.localiser();
+                    }
+                });
             }
         });
     }, 100);
