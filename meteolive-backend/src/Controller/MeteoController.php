@@ -22,6 +22,8 @@ class MeteoController extends AbstractController
         Request $request
     ): JsonResponse {
 
+        $user = $this->getUser();
+        $estFahrenheit = $user && $user->getUnite() === 'f';
 
         $ville = $em->getRepository(Ville::class)->findOneBy(['nom' => $nomVille]);
 
@@ -29,17 +31,23 @@ class MeteoController extends AbstractController
             $meteo = $em->getRepository(Meteo::class)->findOneBy(['ville' => $ville]);
 
             if ($meteo && $meteo->getDateExpiration() > new \DateTime()) {
+                $temperature = $meteo->getTemperature();
+                if ($estFahrenheit) {
+                    $temperature = round(($temperature * 9/5) + 32, 1);
+                }
+
                 return $this->json([
                     'source' => 'cache',
                     'ville' => $ville->getNom(),
                     'pays' => $ville->getPays(),
-                    'temperature' => $meteo->getTemperature(),
+                    'temperature' => $temperature,
                     'condition' => $meteo->getConditionMeteo(),
                     'conditionDescription' => $meteo->getConditionDescription(),
                     'icone' => $meteo->getIcone(),
                     'vent' => $meteo->getVent(),
                     'dateMesure' => $meteo->getDateMesure()->format('Y-m-d H:i:s'),
                     'humidite' => $meteo->getHumidite(),
+                    'unite' => $estFahrenheit ? '°F' : '°C',
                 ]);
             }
         }
@@ -57,7 +65,9 @@ class MeteoController extends AbstractController
         if ($response->getStatusCode() !== 200) {
             return $this->json(['message' => 'Ville introuvable'], 404);
         }
+
         $data = $response->toArray();
+
         if (!$ville) {
             $ville = new Ville();
             $ville->setNom($data['name']);
@@ -66,6 +76,7 @@ class MeteoController extends AbstractController
             $ville->setLongitude($data['coord']['lon']);
             $em->persist($ville);
         }
+
         $meteo = $em->getRepository(Meteo::class)->findOneBy(['ville' => $ville]) ?? new Meteo();
         $meteo->setVille($ville);
         $meteo->setTemperature($data['main']['temp']);
@@ -81,18 +92,25 @@ class MeteoController extends AbstractController
         $em->persist($meteo);
         $em->flush();
 
+        $temperature = $data['main']['temp'];
+        if ($estFahrenheit) {
+            $temperature = round(($temperature * 9/5) + 32, 1);
+        }
+
         return $this->json([
             'source' => 'api',
             'ville' => $ville->getNom(),
             'pays' => $ville->getPays(),
-            'temperature' => $meteo->getTemperature(),
+            'temperature' => $temperature,
             'condition' => $meteo->getConditionMeteo(),
             'conditionDescription' => $meteo->getConditionDescription(),
             'icone' => $meteo->getIcone(),
             'vent' => $meteo->getVent(),
             'dateMesure' => $meteo->getDateMesure()->format('Y-m-d H:i:s'),
+            'unite' => $estFahrenheit ? '°F' : '°C',
         ]);
     }
+
     #[Route('/meteo/{nomVille}/previsions', name: 'api_meteo_previsions', methods: ['GET'])]
     public function getPrevisions(
         string $nomVille,
@@ -100,44 +118,55 @@ class MeteoController extends AbstractController
         Request $request
     ): JsonResponse {
 
-    $apiKey = $_ENV['OPENWEATHER_API_KEY'];
-    $response = $httpClient->request('GET', 'https://api.openweathermap.org/data/2.5/forecast', [
-        'query' => [
-            'q' => $nomVille,
-            'appid' => $apiKey,
-            'units' => 'metric',
-            'lang' => 'fr'
-        ]
-    ]);
-    if ($response->getStatusCode() !== 200) {
-        return $this->json(['message' => 'Ville introuvable'], 404);
-    }
+        $apiKey = $_ENV['OPENWEATHER_API_KEY'];
+        $user = $this->getUser();
+        $estFahrenheit = $user && $user->getUnite() === 'f';
 
-    $data = $response->toArray();
+        $response = $httpClient->request('GET', 'https://api.openweathermap.org/data/2.5/forecast', [
+            'query' => [
+                'q' => $nomVille,
+                'appid' => $apiKey,
+                'units' => 'metric',
+                'lang' => 'fr'
+            ]
+        ]);
 
-     $heuresFiltre = ['09:00:00', '12:00:00', '15:00:00', '18:00:00', '21:00:00'];
-     $date = $request->query->get('date', (new \DateTime())->format('Y-m-d'));
-     $previsions = [];
-
-    foreach ($data['list'] as $item) {
-        $dateItem = $item['dt_txt'];
-        $datePartie = substr($dateItem, 0, 10);
-        $heurePartie = substr($dateItem, 11);
-
-        if ($datePartie === $date && in_array($heurePartie, $heuresFiltre)) {
-            $previsions[] = [
-                'heure' => substr($heurePartie, 0, 5), // "09:00"
-                'temperature' => $item['main']['temp'],
-                'condition' => $item['weather'][0]['main'],
-                'conditionDescription' => $item['weather'][0]['description'],
-                'icone' => $item['weather'][0]['icon'],
-            ];
+        if ($response->getStatusCode() !== 200) {
+            return $this->json(['message' => 'Ville introuvable'], 404);
         }
+
+        $data = $response->toArray();
+
+        $heuresFiltre = ['09:00:00', '12:00:00', '15:00:00', '18:00:00', '21:00:00'];
+        $date = $request->query->get('date', (new \DateTime())->format('Y-m-d'));
+        $previsions = [];
+
+        foreach ($data['list'] as $item) {
+            $dateItem = $item['dt_txt'];
+            $datePartie = substr($dateItem, 0, 10);
+            $heurePartie = substr($dateItem, 11);
+
+            if ($datePartie === $date && in_array($heurePartie, $heuresFiltre)) {
+                $temperature = $item['main']['temp'];
+                if ($estFahrenheit) {
+                    $temperature = round(($temperature * 9/5) + 32, 1);
+                }
+
+                $previsions[] = [
+                    'heure' => substr($heurePartie, 0, 5),
+                    'temperature' => $temperature,
+                    'condition' => $item['weather'][0]['main'],
+                    'conditionDescription' => $item['weather'][0]['description'],
+                    'icone' => $item['weather'][0]['icon'],
+                ];
+            }
+        }
+
+        return $this->json([
+            'ville' => $data['city']['name'],
+            'pays' => $data['city']['country'],
+            'previsions' => $previsions,
+            'unite' => $estFahrenheit ? '°F' : '°C',
+        ]);
     }
-    return $this->json([
-        'ville' => $data['city']['name'],
-        'pays' => $data['city']['country'],
-        'previsions' => $previsions
-    ]);
-}
 }

@@ -1,7 +1,8 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -59,6 +60,13 @@ addNote(nomVille: string, note: number): Observable<any> {
 }
 villedefault(nomVille: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/me/ville-defaut`, { nomVille }, {
+        headers: new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        })
+    });
+}
+updateUnite(unite: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/me/unite`, { unite }, {
         headers: new HttpHeaders({
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         })

@@ -1,7 +1,4 @@
 <div class="profil-container" *ngIf="profil$ | async as profil">
-
-    
-
     <div class="profil-card">
 <h1 class="profil-titre">Paramètres</h1>
         <div class="top-grid">
@@ -21,8 +18,8 @@
                 <h2>Unités de mesure</h2>
                 <p class="section-sub">Sélectionnez votre unité de mesure préférée</p>
                 <div class="unite-toggle">
-                    <button class="unite-btn active">°C</button>
-                    <button class="unite-btn">°F</button>
+                    <button class="unite-btn" [class.active]="unite === 'c'" (click)="changerUnite('c')">°C</button>
+                    <button class="unite-btn" [class.active]="unite === 'f'" (click)="changerUnite('f')">°F</button>
                 </div>
             </div>
         </div>
@@ -59,7 +56,5 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>

@@ -5,12 +5,15 @@
             <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
             <button (click)="meteo()">🔍</button>
         </div>
+        
         <div class="search-date">
             <span>📅</span>
             <input type="date" #dateInput [min]="dateMin" [max]="dateMax" (change)="date = dateInput.value">
         </div>
     </div>
-
+    <div *ngIf="erreurVille" class="erreur-message">
+        ⚠️ {{ erreurVille }}
+    </div>
     <div *ngIf="meteoPrevisions" class="map-container">
         <iframe width="100%" height="250" style="border:0; pointer-events: none;" [src]="mapUrl" allowfullscreen></iframe>
     </div>
@@ -28,7 +31,9 @@
                             <img [src]="'https://openweathermap.org/img/wn/' + meteoActuelle.icone + '@2x.png'" alt="icone météo">
                         </div>
                         <div class="temperature">
-                            <span class="temp-value">{{ meteoActuelle.temperature }}°C</span>
+                            <span class="temp-value">
+                                {{ meteoActuelle.temperature }}{{ meteoActuelle.unite || '°C' }}
+                            </span>
                             <span class="temp-condition">{{ meteoActuelle.conditionDescription }}</span>
                         </div>
                     </div>

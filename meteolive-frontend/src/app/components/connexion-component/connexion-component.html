@@ -4,21 +4,52 @@
         <p class="subtitle">Bienvenue sur MétéoLive</p>
 
         <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+
             <div class="form-group">
                 <label>Adresse e-mail</label>
-                <input type="email" name="email" ngModel required placeholder="Votre adresse mail">
+                <input
+                    type="email"
+                    name="email"
+                    ngModel
+                    required
+                    placeholder="Votre adresse mail">
             </div>
 
             <div class="form-group">
                 <label>Mot de passe</label>
-                <input type="password" name="password" ngModel required placeholder="Votre mot de passe">
+                <input
+                    type="password"
+                    name="password"
+                    ngModel
+                    required
+                    placeholder="Votre mot de passe">
             </div>
 
-            <button type="submit" class="btn-primary" [disabled]="!loginForm.valid">
-                Se connecter
+            <div *ngIf="erreur" class="erreur-message">
+                ⚠️ {{ erreur }}
+            </div>
+
+            <button
+                type="submit"
+                class="btn-primary"
+                [disabled]="!loginForm.valid || loading">
+
+                <span *ngIf="!loading">
+                    Se connecter
+                </span>
+
+                <span *ngIf="loading">
+                    Connexion en cours...
+                </span>
+
             </button>
+
         </form>
 
-        <p class="redirect">Pas encore inscrit ? <a (click)="inscription()">S'inscrire</a></p>
+        <p class="redirect">
+            Pas encore inscrit ?
+            <a (click)="inscription()">S'inscrire</a>
+        </p>
+
     </div>
-</div>  
+</div>

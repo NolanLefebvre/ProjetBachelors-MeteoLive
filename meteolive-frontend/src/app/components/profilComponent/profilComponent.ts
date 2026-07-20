@@ -18,14 +18,20 @@ export class profilComponent {
   favoris$: Observable<any>;
   notes$: Observable<any>;
   nomVille: string = '';
-
+  unite: string = 'c';
   constructor(private profilService: ProfilService, private router: Router, private cdr: ChangeDetectorRef) {
     this.profil$ = this.profilService.getProfil();
     this.favoris$ = this.profilService.getFavoris();
     this.notes$ = this.profilService.getNotes().pipe(
         map((notes: any[]) => notes.slice(0, 5))
     );
-  }
+
+    this.profilService.getProfil().subscribe((profil: any) => {
+    console.log('profil unite:', profil.unite);
+    this.unite = profil.unite || 'c';
+    this.cdr.detectChanges();
+});
+}
 
   favsVille(nomVille: string) {
     this.router.navigate(['/accueil'], { queryParams: { ville: nomVille } });
@@ -44,4 +50,12 @@ export class profilComponent {
         this.cdr.detectChanges();
     });
   }
+
+  changerUnite(unite: string) {
+    this.unite = unite;
+    this.profilService.updateUnite(unite).subscribe(data => {
+        this.cdr.detectChanges();
+    });
+  }
+
 }

@@ -213,6 +213,7 @@ class ProfilController extends AbstractController
                     'roles' => $user->getRoles(),
                     'dateInscription' => $user->getDateInscription()->format('Y-m-d H:i:s'),
                     'villeDefaut' => $user->getVilleDefaut() ? $user->getVilleDefaut()->getNom() : null,
+                    'unite' => $user->getUnite(),
                 ]);
         }
     #[Route('', name: 'api_me_delete', methods: ['DELETE'])]

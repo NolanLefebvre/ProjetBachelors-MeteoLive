@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,14 +20,17 @@ private apiUrl = 'http://localhost:8000/api';
 
   getMeteo(nomVille: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/meteo/${nomVille}`, {
-      headers: this.getHeaders()
-    });
-  }
+        headers: this.getHeaders()
+    }).pipe(
+        catchError(err => {
+            return throwError(() => err);
+        })
+    );
+}
   getMeteoprevision(nomVille: string, date: string = ''): Observable<any> {
     const params = date ? `?date=${date}` : '';
     return this.http.get(`${this.apiUrl}/meteo/${nomVille}/previsions${params}`, {
         headers: this.getHeaders()
     });
 }
-
 }

@@ -29,8 +29,10 @@ export class accueilComponent {
   mapUrl: SafeResourceUrl = '';
   titreDateAffichee: string = '';
   dateMin: string = new Date().toISOString().split('T')[0];
-dateMax: string = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-heuresFixees: string[] = ['09:00', '12:00', '15:00', '18:00', '21:00'];
+  dateMax: string = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  heuresFixees: string[] = ['09:00', '12:00', '15:00', '18:00', '21:00'];
+  unite: string = 'C';
+  erreurVille: string = '';
 logDate(){
     console.log('date changée', this.date);
 }
@@ -48,10 +50,19 @@ meteo(){
     this.dejaNote = false;
     const aujourdhui = new Date().toISOString().split('T')[0];
     if (!this.date || this.date === aujourdhui) {
-    this.meteoService.getMeteo(this.nomVille).subscribe(data => {
-        this.meteoActuelle = data;
-        this.cdr.detectChanges();
+    this.erreurVille = '';
+    this.meteoService.getMeteo(this.nomVille).subscribe({
+        next: (data) => {
+            this.meteoActuelle = data;
+            this.unite = data.unite?.replace('°', '') || 'C';
+            this.cdr.detectChanges();
+        },
+        error: () => {
+            this.erreurVille = 'Ville introuvable, veuillez vérifier le nom saisi.';
+            this.cdr.detectChanges();
+        }
     });
+
 } else {
     this.meteoActuelle = null;
     this.cdr.detectChanges();
@@ -129,6 +140,4 @@ getPrevision(heure: string): any {
         });
     }, 100);
 }
-
-
 }
