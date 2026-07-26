@@ -5,11 +5,12 @@ import { ConnexionComponent } from './components/connexion-component/connexion-c
 import { authGuard } from './guards/auth-guard';
 import { InscriptionComponent } from './components/inscription-component/inscription-component';
 import { ClassementComponent } from './components/classement-component/classement-component';
-
+import { AdminComponent } from './components/admin-component/admin-component';
 
 export const routes: Routes = [
     { path: '', component: ConnexionComponent },
     { path: 'connexion', component: ConnexionComponent },
+    { path: 'admin', component: AdminComponent, canActivate: [authGuard] },
     { path: 'profile', component: profilComponent, canActivate: [authGuard] },
     { path: 'accueil', component: accueilComponent, canActivate: [authGuard] },
     { path: 'classements', component: ClassementComponent, canActivate: [authGuard] },

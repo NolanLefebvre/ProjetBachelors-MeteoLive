@@ -1,0 +1,17 @@
+<h1>Users</h1>
+<div *ngIf="Users">
+    <div *ngFor="let user of Users">
+        <p>{{ user.pseudo }} - {{ user.email }} - {{ user.dateInscription }}</p>
+        <button (click)="supprimerUser(user.id)">Supprimer</button>
+    </div>
+</div>
+<br>
+<h1>Notes</h1>
+<div *ngIf="Notes">
+
+    <div *ngFor="let note of Notes">
+    <p>{{ note.utilisateur }} ({{ note.email }}) - {{ note.ville }} - {{ note.note }} - {{ note.date }}</p>
+    <button (click)="supprimerNote(note.id)">Supprimer</button>
+</div>
+</div>
+

@@ -15,8 +15,13 @@
                 <label>Mot de passe</label>
                 <input type="password" name="password" ngModel required placeholder="Votre mot de passe">
             </div>
-            <button type="submit" class="btn-primary" [disabled]="!form.valid">
-                S'inscrire
+            <div *ngIf="erreur" class="erreur-message">
+                ⚠️ {{ erreur }}
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="!form.valid || loading">
+                <span *ngIf="!loading">S'inscrire</span>
+                <span *ngIf="loading">Inscription en cours...</span>
             </button>
         </form>
         <p class="redirect">
