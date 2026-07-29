@@ -19,7 +19,7 @@
     </div>
 
     <div *ngIf="meteoActuelle || meteoPrevisions" class="meteo-card">
-        <h2 class="meteo-titre">{{ villeAffichee }}{{ titreDateAffichee ? ', ' + titreDateAffichee : '' }}</h2>
+        <h2 class="meteo-titre">{{ villeAffichee }}, {{ titreDateAffichee || (today | date:'d MMMM yyyy') }}</h2>
 
         <div class="meteo-content">
 

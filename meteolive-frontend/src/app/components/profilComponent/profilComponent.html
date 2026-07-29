@@ -6,12 +6,14 @@
                 <h2>Ville par défaut</h2>
                 <p class="section-sub">Choisissez votre ville par défaut</p>
                 <div class="ville-defaut-form">
-                    <div class="ville-input">
-                        <span>⭐</span>
-                        <input type="text" [(ngModel)]="nomVille" [placeholder]="profil.villeDefaut || 'Aucune ville par défaut'">
-                    </div>
-                    <button class="btn-enregistrer" (click)="villedefault()">Enregistrer</button>
+                <div class="ville-input">
+                    <span>⭐</span>
+                    <input type="text" [(ngModel)]="nomVille" [placeholder]="profil.villeDefaut || 'Aucune ville par défaut'">
                 </div>
+                <button class="btn-enregistrer" (click)="villedefault()">Enregistrer</button>
+            </div>
+            <p class="message-succes" *ngIf="messageVilleDefaut">✅ {{ messageVilleDefaut }}</p>
+            <p class="message-erreur" *ngIf="erreurVilleDefaut">⚠️ {{ erreurVilleDefaut }}</p>
             </div>
 
             <div class="section-card">

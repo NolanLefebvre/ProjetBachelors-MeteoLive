@@ -19,6 +19,9 @@ export class profilComponent {
   notes$: Observable<any>;
   nomVille: string = '';
   unite: string = 'c';
+  messageVilleDefaut: string = '';
+  erreurVilleDefaut: string = '';
+
   constructor(private profilService: ProfilService, private router: Router, private cdr: ChangeDetectorRef) {
     this.profil$ = this.profilService.getProfil();
     this.favoris$ = this.profilService.getFavoris();
@@ -38,11 +41,29 @@ export class profilComponent {
   }
 
   villedefault(){
-    this.profilService.villedefault(this.nomVille).subscribe(data => {
-        this.profil$ = this.profilService.getProfil();
-        this.cdr.detectChanges();
-    });
-  }
+    this.messageVilleDefaut = '';
+    this.erreurVilleDefaut = '';
+    this.cdr.detectChanges();
+    this.profilService.villedefault(this.nomVille).subscribe({
+        next: (data) => {
+            this.messageVilleDefaut = 'Ville par défaut mise à jour avec succès !';
+            this.profil$ = this.profilService.getProfil();
+            this.cdr.detectChanges();
+            setTimeout(() => {
+                this.messageVilleDefaut = '';
+                this.cdr.detectChanges();
+            }, 3000);
+        },
+        error: () => {
+            this.erreurVilleDefaut = 'Ville introuvable, veuillez vérifier le nom saisi.';
+            this.cdr.detectChanges();
+            setTimeout(() => {
+                this.erreurVilleDefaut = '';
+                this.cdr.detectChanges();
+            }, 3000);
+          }
+      });
+    }
 
   supprimerFavori(id: number){
     this.profilService.deleteFavori(id).subscribe(data => {

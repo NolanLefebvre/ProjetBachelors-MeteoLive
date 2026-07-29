@@ -1,17 +1,36 @@
-<h1>Users</h1>
-<div *ngIf="Users">
-    <div *ngFor="let user of Users">
-        <p>{{ user.pseudo }} - {{ user.email }} - {{ user.dateInscription }}</p>
-        <button (click)="supprimerUser(user.id)">Supprimer</button>
+<div class="admin-container">
+    <div class="admin-card">
+        <h1 class="admin-titre">Administration</h1>
+
+        <!-- Utilisateurs -->
+        <div class="admin-section">
+            <h2>👥 Gestion des utilisateurs</h2>
+            <div class="admin-list" *ngIf="Users">
+                <div class="admin-item" *ngFor="let user of Users">
+                    <div class="item-info">
+                        <span class="item-principal">{{ user.pseudo }}</span>
+                        <span class="item-secondaire">{{ user.email }}</span>
+                        <span class="item-date">{{ user.dateInscription | date:'d MMMM yyyy' }}</span>
+                    </div>
+                    <button class="btn-supprimer" (click)="supprimerUser(user.id)">🗑️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="admin-section">
+            <h2>⭐ Gestion des notes</h2>
+            <div class="admin-list" *ngIf="Notes">
+                <div class="admin-item" *ngFor="let note of Notes">
+                    <div class="item-info">
+                        <span class="item-principal">{{ note.utilisateur }} ({{ note.email }})</span>
+                        <span class="item-secondaire">{{ note.ville }} — Note : {{ note.note }}/5</span>
+                        <span class="item-date">{{ note.date | date:'d MMMM yyyy' }}</span>
+                    </div>
+                    <button class="btn-supprimer" (click)="supprimerNote(note.id)">🗑️</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
-<br>
-<h1>Notes</h1>
-<div *ngIf="Notes">
-
-    <div *ngFor="let note of Notes">
-    <p>{{ note.utilisateur }} ({{ note.email }}) - {{ note.ville }} - {{ note.note }} - {{ note.date }}</p>
-    <button (click)="supprimerNote(note.id)">Supprimer</button>
-</div>
-</div>
-

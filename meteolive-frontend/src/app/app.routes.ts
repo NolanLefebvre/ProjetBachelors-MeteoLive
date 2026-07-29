@@ -6,11 +6,12 @@ import { authGuard } from './guards/auth-guard';
 import { InscriptionComponent } from './components/inscription-component/inscription-component';
 import { ClassementComponent } from './components/classement-component/classement-component';
 import { AdminComponent } from './components/admin-component/admin-component';
+import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
-    { path: '', component: ConnexionComponent },
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
     { path: 'connexion', component: ConnexionComponent },
-    { path: 'admin', component: AdminComponent, canActivate: [authGuard] },
+    { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
     { path: 'profile', component: profilComponent, canActivate: [authGuard] },
     { path: 'accueil', component: accueilComponent, canActivate: [authGuard] },
     { path: 'classements', component: ClassementComponent, canActivate: [authGuard] },

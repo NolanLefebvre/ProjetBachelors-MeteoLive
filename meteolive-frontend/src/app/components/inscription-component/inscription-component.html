@@ -9,11 +9,17 @@
             </div>
             <div class="form-group">
                 <label>Adresse e-mail</label>
-                <input type="email" name="email" ngModel required placeholder="Votre email">
+                <input type="email" name="email" ngModel required email placeholder="Votre email" #emailInput="ngModel">
+                <p class="erreur-champ" *ngIf="emailInput.invalid && emailInput.touched">
+                    Veuillez entrer un email valide.
+                </p>
             </div>
             <div class="form-group">
                 <label>Mot de passe</label>
-                <input type="password" name="password" ngModel required placeholder="Votre mot de passe">
+                <input type="password" name="password" ngModel required minlength="9" placeholder="Votre mot de passe" #passwordInput="ngModel">
+                <p class="erreur-champ" *ngIf="passwordInput.invalid && passwordInput.touched">
+                    Le mot de passe doit contenir au moins 9 caractères.
+                </p>
             </div>
             <div *ngIf="erreur" class="erreur-message">
                 ⚠️ {{ erreur }}

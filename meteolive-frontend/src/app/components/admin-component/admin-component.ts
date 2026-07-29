@@ -16,15 +16,16 @@ export class AdminComponent {
   constructor( private adminService: AdminService,private cdr: ChangeDetectorRef) {}
   supprimerUser(id: number) {
     this.adminService.deleteUser(id).subscribe(data => {
-        this.Users = this.Users.filter((u: any) => u.id !== id);
+        this.Users = [...this.Users.filter((u: any) => u.id !== id)];
         this.cdr.detectChanges();
     });
   }
+
   supprimerNote(id: number) {
-    this.adminService.deleteNote(id).subscribe(data => {
-        this.Notes = this.Notes.filter((u: any) => u.id !== id);
-        this.cdr.detectChanges();
-    });
+      this.adminService.deleteNote(id).subscribe(data => {
+          this.Notes = [...this.Notes.filter((n: any) => n.id !== id)];
+          this.cdr.detectChanges();
+      });
   }
   ngOnInit(): void {
     this.adminService.getUserAdmin().subscribe(data => {

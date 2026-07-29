@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\Favori;
 use App\Entity\Ville;
 use App\Entity\Note;
@@ -226,21 +226,50 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/ville-defaut', name: 'api_me_ville_defaut', methods: ['PUT'])]
-    public function updateVilleDefaut(Request $request,EntityManagerInterface $em): JsonResponse {
-    $user = $this->getUser();
-    $data = json_decode($request->getContent(), true);
+    public function updateVilleDefaut(
+        Request $request,
+        EntityManagerInterface $em,
+        HttpClientInterface $httpClient
+    ): JsonResponse {
+        $user = $this->getUser();
+        $data = json_decode($request->getContent(), true);
 
-    if (!$data['nomVille']) {
-        return $this->json(['message' => 'Le nom de la ville est obligatoire'], 400);
-    }
-    $ville = $em->getRepository(Ville::class)->findOneBy(['nom' => $data['nomVille']]);
-    if (!$ville) {
-        return $this->json(['message' => 'La ville est introuvable, consultez d\'abord la météo de cette ville'], 400);
-    }
-    $user->setVilleDefaut($ville);
-    $em->flush();
+        if (empty($data['nomVille'])) {
+            $user->setVilleDefaut(null);
+            $em->flush();
+            return $this->json(['message' => 'Ville par défaut supprimée']);
+        }
 
-    return $this->json(['message' => 'La ville par défaut a été mise a jour']);
+        $ville = $em->getRepository(Ville::class)->findOneBy(['nom' => $data['nomVille']]);
+
+        if (!$ville) {
+            $apiKey = $_ENV['OPENWEATHER_API_KEY'];
+            $response = $httpClient->request('GET', 'https://api.openweathermap.org/data/2.5/weather', [
+                'query' => [
+                    'q' => $data['nomVille'],
+                    'appid' => $apiKey,
+                    'units' => 'metric',
+                    'lang' => 'fr'
+                ]
+            ]);
+
+            if ($response->getStatusCode() !== 200) {
+                return $this->json(['message' => 'Ville introuvable'], 404);
+            }
+
+            $apiData = $response->toArray();
+            $ville = new Ville();
+            $ville->setNom($apiData['name']);
+            $ville->setPays($apiData['sys']['country']);
+            $ville->setLatitude($apiData['coord']['lat']);
+            $ville->setLongitude($apiData['coord']['lon']);
+            $em->persist($ville);
+        }
+
+        $user->setVilleDefaut($ville);
+        $em->flush();
+
+        return $this->json(['message' => 'Ville par défaut mise à jour avec succès']);
     }
 
     #[Route('/unite', name: 'api_me_unite', methods: ['PUT'])]

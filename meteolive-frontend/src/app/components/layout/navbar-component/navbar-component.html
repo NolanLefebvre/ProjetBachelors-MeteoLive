@@ -5,6 +5,7 @@
 </div>
     <div class="navbar-links">
         <a *ngIf="connecter()" routerLink="/accueil" routerLinkActive="active">Accueil</a>
+        <a *ngIf="estAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
         <a *ngIf="connecter()" routerLink="/classements" routerLinkActive="active">Classements</a>
         <a *ngIf="!connecter()" routerLink="/connexion" routerLinkActive="active">Connexion</a>
         <a *ngIf="connecter()" routerLink="/profile" routerLinkActive="active">Profil</a>

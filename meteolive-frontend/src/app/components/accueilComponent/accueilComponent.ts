@@ -18,6 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 export class accueilComponent {
   constructor(private route: ActivatedRoute,private http: HttpClient,private meteoService: MeteoService,private router: Router,private cdr: ChangeDetectorRef, private profilService:ProfilService, private sanitizer: DomSanitizer) {}
   nomVille: string = '';
+  today: Date = new Date();
   date: string = '';
   meteoActuelle: any = null;
   meteoPrevisions: any = null;
