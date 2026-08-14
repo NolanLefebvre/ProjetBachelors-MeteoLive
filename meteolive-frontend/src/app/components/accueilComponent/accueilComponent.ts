@@ -34,6 +34,8 @@ export class accueilComponent {
   heuresFixees: string[] = ['09:00', '12:00', '15:00', '18:00', '21:00'];
   unite: string = 'C';
   erreurVille: string = '';
+  chargement: boolean = false;
+
 logDate(){
     console.log('date changée', this.date);
 }
@@ -52,10 +54,12 @@ meteo(){
     const aujourdhui = new Date().toISOString().split('T')[0];
     if (!this.date || this.date === aujourdhui) {
     this.erreurVille = '';
+    this.chargement = true;
     this.meteoService.getMeteo(this.nomVille).subscribe({
         next: (data) => {
             this.meteoActuelle = data;
             this.unite = data.unite?.replace('°', '') || 'C';
+            console.log('pays:', data.pays);
             this.cdr.detectChanges();
         },
         error: () => {
@@ -72,6 +76,7 @@ meteo(){
     this.meteoService.getMeteoprevision(this.nomVille, this.date).subscribe(data => {
         console.log('Prévisions reçues :', data);
         this.meteoPrevisions = data;
+        this.chargement = false;
         this.cdr.detectChanges();
     });
     this.profilService.getFavoris().subscribe(data => {

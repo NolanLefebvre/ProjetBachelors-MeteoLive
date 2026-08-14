@@ -5,26 +5,48 @@
             <input type="text" [(ngModel)]="nomVille" placeholder="Rechercher une ville...">
             <button (click)="meteo()">🔍</button>
         </div>
-        
         <div class="search-date">
             <span>📅</span>
             <input type="date" #dateInput [min]="dateMin" [max]="dateMax" (change)="date = dateInput.value">
         </div>
     </div>
+
     <div *ngIf="erreurVille" class="erreur-message">
         ⚠️ {{ erreurVille }}
     </div>
-    <div *ngIf="meteoPrevisions" class="map-container">
-        <iframe width="100%" height="250" style="border:0; pointer-events: none;" [src]="mapUrl" allowfullscreen></iframe>
+
+    <div *ngIf="chargement" class="meteo-card">
+        <div class="skeleton" style="height: 28px; width: 250px; margin: 0 auto 24px;"></div>
+        <div class="meteo-content">
+            <div class="meteo-actuelle">
+                <div class="skeleton" style="height: 80px; width: 80%; margin: 0 auto 16px;"></div>
+                <div class="skeleton" style="height: 20px; width: 60%; margin: 0 auto 12px;"></div>
+                <div class="skeleton" style="height: 20px; width: 40%; margin: 0 auto;"></div>
+            </div>
+            <div class="separateur"></div>
+            <div class="previsions">
+                <div class="skeleton" style="height: 20px; width: 150px; margin-bottom: 20px;"></div>
+                <div style="display:flex; gap:8px;">
+                    <div class="skeleton" style="height: 100px; flex:1;" *ngFor="let h of heuresFixees"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div *ngIf="meteoActuelle || meteoPrevisions" class="meteo-card">
-        <h2 class="meteo-titre">{{ villeAffichee }}, {{ titreDateAffichee || (today | date:'d MMMM yyyy') }}</h2>
+    <div *ngIf="chargement" class="map-container">
+    <div class="skeleton" style="height: 250px; width: 100%;"></div>
+</div>
+
+<div *ngIf="!chargement && meteoPrevisions" class="map-container">
+    <iframe width="100%" height="250" style="border:0; pointer-events: none;" [src]="mapUrl" allowfullscreen></iframe>
+</div>
+
+    <div *ngIf="!chargement && (meteoActuelle || meteoPrevisions)" class="meteo-card">
+        <h2 class="meteo-titre">{{ villeAffichee }}{{ meteoActuelle?.pays || meteoPrevisions?.pays ? '- ' + (meteoActuelle?.pays || meteoPrevisions?.pays) : '' }}, {{ titreDateAffichee || (today | date:'d MMMM yyyy') }}</h2>
 
         <div class="meteo-content">
 
             <div class="meteo-actuelle">
-
                 <ng-container *ngIf="meteoActuelle">
                     <div class="meteo-top">
                         <div class="meteo-icone-principale">
@@ -57,9 +79,10 @@
                         <p class="indispo-sub">La météo actuelle n'est disponible que pour aujourd'hui.</p>
                     </div>
                 </ng-container>
-
             </div>
+
             <div class="separateur"></div>
+
             <div *ngIf="meteoPrevisions" class="previsions">
                 <h3>Prévisions {{ titreDateAffichee ? 'du ' + titreDateAffichee : "d'aujourd'hui" }}</h3>
                 <div class="previsions-list">

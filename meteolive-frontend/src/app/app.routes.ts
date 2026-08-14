@@ -7,6 +7,7 @@ import { InscriptionComponent } from './components/inscription-component/inscrip
 import { ClassementComponent } from './components/classement-component/classement-component';
 import { AdminComponent } from './components/admin-component/admin-component';
 import { adminGuard } from './guards/admin-guard';
+import { NotFoundComponent } from './components/not-found-component/not-found-component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/accueil', pathMatch: 'full' },
@@ -16,4 +17,5 @@ export const routes: Routes = [
     { path: 'accueil', component: accueilComponent, canActivate: [authGuard] },
     { path: 'classements', component: ClassementComponent, canActivate: [authGuard] },
     { path: 'inscription', component: InscriptionComponent },
+    { path: '**', component: NotFoundComponent },
 ];

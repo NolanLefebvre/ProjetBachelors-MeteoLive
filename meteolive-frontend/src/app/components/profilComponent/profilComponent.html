@@ -1,21 +1,33 @@
-<div class="profil-container" *ngIf="profil$ | async as profil">
+<div *ngIf="chargement" class="profil-container">
     <div class="profil-card">
-<h1 class="profil-titre">Paramètres</h1>
+        <div class="skeleton" style="height: 40px; width: 200px; margin-bottom: 24px;"></div>
+        <div class="top-grid">
+            <div class="skeleton" style="height: 120px; flex:1;"></div>
+            <div class="skeleton" style="height: 120px; flex:1;"></div>
+        </div>
+        <div class="sections-grid" style="margin-top: 16px;">
+            <div class="skeleton" style="height: 250px; flex:1;"></div>
+            <div class="skeleton" style="height: 250px; flex:1;"></div>
+        </div>
+    </div>
+</div>
+<div class="profil-container" *ngIf="!chargement && (profil$ | async) as profilData">
+    <div class="profil-card">
+        <h1 class="profil-titre">{{ profilData.pseudo }}</h1>
         <div class="top-grid">
             <div class="section-card ville-defaut-card">
                 <h2>Ville par défaut</h2>
                 <p class="section-sub">Choisissez votre ville par défaut</p>
                 <div class="ville-defaut-form">
-                <div class="ville-input">
-                    <span>⭐</span>
-                    <input type="text" [(ngModel)]="nomVille" [placeholder]="profil.villeDefaut || 'Aucune ville par défaut'">
+                    <div class="ville-input">
+                        <span>⭐</span>
+                        <input type="text" [(ngModel)]="nomVille" [placeholder]="profilData.villeDefaut || 'Aucune ville par défaut'">
+                    </div>
+                    <button class="btn-enregistrer" (click)="villedefault()">Enregistrer</button>
                 </div>
-                <button class="btn-enregistrer" (click)="villedefault()">Enregistrer</button>
+                <p class="message-succes" *ngIf="messageVilleDefaut">✅ {{ messageVilleDefaut }}</p>
+                <p class="message-erreur" *ngIf="erreurVilleDefaut">⚠️ {{ erreurVilleDefaut }}</p>
             </div>
-            <p class="message-succes" *ngIf="messageVilleDefaut">✅ {{ messageVilleDefaut }}</p>
-            <p class="message-erreur" *ngIf="erreurVilleDefaut">⚠️ {{ erreurVilleDefaut }}</p>
-            </div>
-
             <div class="section-card">
                 <h2>Unités de mesure</h2>
                 <p class="section-sub">Sélectionnez votre unité de mesure préférée</p>
@@ -25,7 +37,6 @@
                 </div>
             </div>
         </div>
-
         <div class="sections-grid">
             <div class="col-gauche">
                 <div class="section-card">
@@ -41,7 +52,6 @@
                     </ng-container>
                 </div>
             </div>
-
             <div class="col-droite">
                 <div class="section-card favoris-card">
                     <h2>Mes villes favorites</h2>
@@ -51,7 +61,7 @@
                             <div class="favori-item" *ngFor="let favori of favoris">
                                 <span class="fav-star">⭐</span>
                                 <span class="fav-ville" (click)="favsVille(favori.ville)">{{ favori.ville }}, {{ favori.pays }}</span>
-                                <button class="btn-supprimer" (click)="supprimerFavori(favori.id)">🗑️</button>
+                                <button class="btn-supprimer" (click)="supprimerFavori(favori.id)">Supprimer</button>
                             </div>
                         </ng-container>
                     </div>

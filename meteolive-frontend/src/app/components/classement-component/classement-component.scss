@@ -2,7 +2,12 @@
     padding: 24px 40px;
     max-width: 1200px;
     margin: 0 auto;
-
+    
+    .bloc-item.empty {
+    color: #4a6a9a;
+    font-style: italic;
+    justify-content: center;
+}
     .classement-card {
         background: rgba(255, 255, 255, 0.25);
         backdrop-filter: blur(10px);

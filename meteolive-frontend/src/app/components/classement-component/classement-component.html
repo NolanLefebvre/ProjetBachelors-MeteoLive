@@ -1,12 +1,26 @@
-<div class="classement-container">
-
+<div *ngIf="chargement" class="classement-container">
     <div class="classement-card">
+        <div style="display:flex; gap:32px;">
+            <div style="flex:1;">
+                <div class="skeleton" style="height: 30px; width: 200px; margin-bottom: 20px;"></div>
+                <div class="skeleton" style="height: 150px; width: 100%; margin-bottom: 16px;"></div>
+                <div class="skeleton" style="height: 150px; width: 100%; margin-bottom: 16px;"></div>
+                <div class="skeleton" style="height: 150px; width: 100%;"></div>
+            </div>
+            <div style="flex:1;">
+                <div class="skeleton" style="height: 30px; width: 200px; margin-bottom: 20px;"></div>
+                <div class="skeleton" style="height: 150px; width: 100%; margin-bottom: 16px;"></div>
+                <div class="skeleton" style="height: 150px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div *ngIf="!chargement" class="classement-container">
+    <div class="classement-card">
         <div class="classement-columns" *ngIf="classementMeteo">
-
             <div class="classement-col">
                 <h2 class="col-titre">Classements météo</h2>
-
                 <div class="classement-bloc">
                     <div class="bloc-header">☀️ Ville la plus chaude</div>
                     <div class="bloc-list">
@@ -17,7 +31,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="classement-bloc">
                     <div class="bloc-header">❄️ Ville la plus froide</div>
                     <div class="bloc-list">
@@ -28,7 +41,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="classement-bloc">
                     <div class="bloc-header">💨 Ville la plus venteuse</div>
                     <div class="bloc-list">
@@ -40,12 +52,14 @@
                     </div>
                 </div>
             </div>
-
             <div class="classement-col">
                 <h2 class="col-titre">Classements ressenti</h2>
                 <div class="classement-bloc">
                     <div class="bloc-header">😊 Meilleur ressenti</div>
                     <div class="bloc-list">
+                        <div *ngIf="classementNotes?.meilleurs?.length === 0" class="bloc-item empty">
+                            <span>Aucun ressenti pour le moment</span>
+                        </div>
                         <div *ngFor="let ville of classementNotes?.meilleurs; let i = index" class="bloc-item">
                             <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
                             <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>
@@ -53,10 +67,12 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="classement-bloc">
                     <div class="bloc-header">😞 Pire ressenti</div>
                     <div class="bloc-list">
+                        <div *ngIf="classementNotes?.pires?.length === 0" class="bloc-item empty">
+                            <span>Aucun ressenti pour le moment</span>
+                        </div>
                         <div *ngFor="let ville of classementNotes?.pires; let i = index" class="bloc-item">
                             <span class="rang">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</span>
                             <span class="ville-nom">{{ ville.ville }}, {{ ville.pays }}</span>

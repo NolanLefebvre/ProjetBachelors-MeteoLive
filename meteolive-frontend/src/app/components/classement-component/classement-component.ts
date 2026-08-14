@@ -11,7 +11,8 @@ export class ClassementComponent {
 
   classementMeteo: any = null;  
   classementNotes: any = null;
-
+  chargement: boolean = true;
+  
 constructor( private classementsService: ClassementsService,private cdr: ChangeDetectorRef) {}
 ngOnInit(): void {
     this.classementsService.getClassementsMeteo().subscribe(data => {
@@ -20,6 +21,7 @@ ngOnInit(): void {
     });
     this.classementsService.getClassementsRessenti().subscribe(data => {
       this.classementNotes = data;
+      this.chargement = false;
       this.cdr.detectChanges();
     });
   }

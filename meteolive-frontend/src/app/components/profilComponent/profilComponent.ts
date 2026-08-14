@@ -21,6 +21,7 @@ export class profilComponent {
   unite: string = 'c';
   messageVilleDefaut: string = '';
   erreurVilleDefaut: string = '';
+  chargement: boolean = true;
 
   constructor(private profilService: ProfilService, private router: Router, private cdr: ChangeDetectorRef) {
     this.profil$ = this.profilService.getProfil();
@@ -32,6 +33,7 @@ export class profilComponent {
     this.profilService.getProfil().subscribe((profil: any) => {
     console.log('profil unite:', profil.unite);
     this.unite = profil.unite || 'c';
+    this.chargement = false;
     this.cdr.detectChanges();
 });
 }
