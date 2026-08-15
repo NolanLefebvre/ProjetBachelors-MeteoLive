@@ -39,12 +39,14 @@ export class ConnexionComponent {
         },
 
         error: (err) => {
-          console.log('Erreur connexion :', err);
-
           this.loading = false;
-          this.erreur = 'Email ou mot de passe incorrect.';
+          if (err.status === 429) {
+              this.erreur = 'Trop de tentatives, veuillez réessayer dans 1 minute.';
+          } else {
+              this.erreur = 'Email ou mot de passe incorrect.';
+          }
           this.cdr.detectChanges();
-        },
+      },
 
         complete: () => {
           this.loading = false;
