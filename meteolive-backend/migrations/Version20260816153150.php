@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260604083633 extends AbstractMigration
+final class Version20260816153150 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,7 +22,6 @@ final class Version20260604083633 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE favori ADD CONSTRAINT FK_EF85A2CCFB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)');
         $this->addSql('ALTER TABLE favori ADD CONSTRAINT FK_EF85A2CCA73F0036 FOREIGN KEY (ville_id) REFERENCES ville (id)');
-        $this->addSql('ALTER TABLE meteo ADD icone VARCHAR(20) DEFAULT NULL, ADD humidite INT DEFAULT NULL');
         $this->addSql('ALTER TABLE meteo ADD CONSTRAINT FK_3D076077A73F0036 FOREIGN KEY (ville_id) REFERENCES ville (id)');
         $this->addSql('ALTER TABLE note ADD CONSTRAINT FK_CFBDFA14FB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)');
         $this->addSql('ALTER TABLE note ADD CONSTRAINT FK_CFBDFA14A73F0036 FOREIGN KEY (ville_id) REFERENCES ville (id)');
@@ -35,7 +34,6 @@ final class Version20260604083633 extends AbstractMigration
         $this->addSql('ALTER TABLE favori DROP FOREIGN KEY FK_EF85A2CCFB88E14F');
         $this->addSql('ALTER TABLE favori DROP FOREIGN KEY FK_EF85A2CCA73F0036');
         $this->addSql('ALTER TABLE meteo DROP FOREIGN KEY FK_3D076077A73F0036');
-        $this->addSql('ALTER TABLE meteo DROP icone, DROP humidite');
         $this->addSql('ALTER TABLE note DROP FOREIGN KEY FK_CFBDFA14FB88E14F');
         $this->addSql('ALTER TABLE note DROP FOREIGN KEY FK_CFBDFA14A73F0036');
         $this->addSql('ALTER TABLE utilisateur DROP FOREIGN KEY FK_1D1C63B3FF564742');
