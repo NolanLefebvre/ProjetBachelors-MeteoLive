@@ -10,6 +10,20 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: meteolive
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - uses: actions/checkout@v5
 
@@ -27,6 +41,7 @@ jobs:
           echo "JWT_PASSPHRASE=test" >> .env
           echo "JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem" >> .env
           echo "JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem" >> .env
+          echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/meteolive?serverVersion=8.0" >> .env
         working-directory: meteolive-backend
 
       - name: Generate JWT keys
@@ -38,6 +53,10 @@ jobs:
 
       - name: Install dependencies
         run: composer install --no-interaction
+        working-directory: meteolive-backend
+
+      - name: Create database schema
+        run: php bin/console doctrine:schema:create --env=test
         working-directory: meteolive-backend
 
       - name: Run tests
