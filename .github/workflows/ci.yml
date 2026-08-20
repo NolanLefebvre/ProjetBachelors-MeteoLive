@@ -18,9 +18,11 @@ jobs:
         with:
           php-version: '8.4'
           extensions: pdo_mysql, mbstring
-          
+
       - name: Create .env file
-        run: echo "APP_ENV=test" > .env
+        run: |
+          echo "APP_ENV=test" > .env
+          echo "DEFAULT_URI=http://localhost" >> .env
         working-directory: meteolive-backend
 
       - name: Install dependencies
