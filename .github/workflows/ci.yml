@@ -23,6 +23,7 @@ jobs:
         run: |
           echo "APP_ENV=test" > .env
           echo "DEFAULT_URI=http://localhost" >> .env
+          echo "CORS_ALLOW_ORIGIN=^https?://localhost(:[0-9]+)?$" >> .env
         working-directory: meteolive-backend
 
       - name: Install dependencies
