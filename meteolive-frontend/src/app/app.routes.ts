@@ -8,6 +8,8 @@ import { ClassementComponent } from './components/classement-component/classemen
 import { AdminComponent } from './components/admin-component/admin-component';
 import { adminGuard } from './guards/admin-guard';
 import { NotFoundComponent } from './components/not-found-component/not-found-component';
+import { ConfidentialiteComponent } from './components/confidentialite-component/confidentialite-component';
+import { MentionsLegalesComponent } from './components/mentions-legales-component/mentions-legales-component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/accueil', pathMatch: 'full' },
@@ -17,5 +19,7 @@ export const routes: Routes = [
     { path: 'accueil', component: accueilComponent, canActivate: [authGuard] },
     { path: 'classements', component: ClassementComponent, canActivate: [authGuard] },
     { path: 'inscription', component: InscriptionComponent },
+    { path: 'confidentialite', component: ConfidentialiteComponent },
+    { path: 'mentions-legales', component: MentionsLegalesComponent },
     { path: '**', component: NotFoundComponent },
 ];

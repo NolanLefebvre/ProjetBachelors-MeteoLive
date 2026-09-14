@@ -66,7 +66,7 @@ export class profilComponent {
           }
       });
     }
-
+    
   supprimerFavori(id: number){
     this.profilService.deleteFavori(id).subscribe(data => {
         this.favoris$ = this.profilService.getFavoris();

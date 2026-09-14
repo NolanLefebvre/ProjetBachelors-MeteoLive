@@ -1,0 +1,56 @@
+<div class="legal-container">
+    <div class="legal-card">
+        <h1>Politique de confidentialité</h1>
+        <p class="date">Dernière mise à jour : septembre 2026</p>
+
+        <h2>1. Données collectées</h2>
+        <p>Dans le cadre de l'utilisation de MétéoLive, nous collectons les données suivantes :</p>
+        <ul>
+            <li>Adresse e-mail (utilisée comme identifiant de connexion)</li>
+            <li>Pseudonyme</li>
+            <li>Mot de passe (hashé avec bcrypt, jamais stocké en clair)</li>
+            <li>Villes favorites et notes météo</li>
+            <li>Ville par défaut et préférence d'unité de mesure</li>
+            <li>Localisation approximative par adresse IP (utilisée uniquement pour la géolocalisation automatique)</li>
+        </ul>
+
+        <h2>2. Utilisation des données</h2>
+        <p>Vos données sont utilisées exclusivement pour :</p>
+        <ul>
+            <li>La gestion de votre compte utilisateur</li>
+            <li>L'affichage de la météo personnalisée selon vos préférences</li>
+            <li>La génération de classements participatifs anonymisés</li>
+        </ul>
+
+        <h2>3. Partage des données</h2>
+        <p>Vos données personnelles ne sont jamais vendues ni partagées avec des tiers. Seules vos notes contribuent aux classements publics de manière anonyme (ville + note moyenne, sans lien avec votre identité).</p>
+
+        <h2>4. Durée de conservation</h2>
+        <p>Vos données sont conservées tant que votre compte est actif. En cas de suppression de votre compte, toutes vos données personnelles (favoris, notes, préférences) sont définitivement supprimées.</p>
+
+        <h2>5. Vos droits (RGPD)</h2>
+        <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :</p>
+        <ul>
+            <li><strong>Droit d'accès</strong> : vous pouvez consulter vos données depuis votre profil</li>
+            <li><strong>Droit de rectification</strong> : vous pouvez modifier votre pseudo et votre ville par défaut</li>
+            <li><strong>Droit à l'effacement</strong> : vous pouvez supprimer votre compte depuis la page Paramètres</li>
+            <li><strong>Droit à la portabilité</strong> : vos données vous appartiennent</li>
+        </ul>
+
+        <h2>6. Cookies</h2>
+        <p>MétéoLive n'utilise pas de cookies de tracking ou publicitaires. Un token JWT est stocké dans votre navigateur (localStorage) uniquement pour maintenir votre session de connexion.</p>
+
+        <h2>7. Sécurité</h2>
+        <p>Nous mettons en œuvre les mesures suivantes pour protéger vos données :</p>
+        <ul>
+            <li>Chiffrement des mots de passe (bcrypt)</li>
+            <li>Authentification sécurisée par token JWT</li>
+            <li>Limitation des tentatives de connexion (5 tentatives/minute)</li>
+            <li>Protection contre les injections SQL via Doctrine ORM</li>
+            <li>Protection XSS native Angular</li>
+        </ul>
+
+        <h2>8. Contact</h2>
+        <p>Pour toute question relative à vos données personnelles : <strong>nolan.lefebvre69@gmail.com</strong></p>
+    </div>
+</div>
