@@ -66,7 +66,19 @@ export class profilComponent {
           }
       });
     }
-    
+  supprimerCompte(){
+    if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
+        this.profilService.supprimerCompte().subscribe({
+            next: () => {
+                localStorage.removeItem('token');
+                this.router.navigate(['/connexion']);
+            },
+            error: () => {
+                alert('Une erreur est survenue.');
+            }
+        });
+    }
+  }
   supprimerFavori(id: number){
     this.profilService.deleteFavori(id).subscribe(data => {
         this.favoris$ = this.profilService.getFavoris();
