@@ -36,9 +36,7 @@ export class accueilComponent {
   erreurVille: string = '';
   chargement: boolean = false;
 
-logDate(){
-    console.log('date changée', this.date);
-}
+
 meteo(){
     this.titreDateAffichee = this.date ? new Date(this.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
     this.meteoPrevisions = null;
@@ -59,7 +57,7 @@ meteo(){
         next: (data) => {
             this.meteoActuelle = data;
             this.unite = data.unite?.replace('°', '') || 'C';
-            console.log('pays:', data.pays);
+            
             this.cdr.detectChanges();
         },
         error: () => {
@@ -74,17 +72,15 @@ meteo(){
 }
 
     this.meteoService.getMeteoprevision(this.nomVille, this.date).subscribe(data => {
-        console.log('Prévisions reçues :', data);
+        
         this.meteoPrevisions = data;
         this.chargement = false;
         this.cdr.detectChanges();
     });
     this.profilService.getFavoris().subscribe(data => {
-    console.log('favoris', data);
-    console.log('nomVille', this.nomVille);
+  
     this.favoris = data;
     this.estFavori = this.favoris.some(f => f.ville === this.nomVille);
-    console.log('estFavori', this.estFavori);
     this.cdr.detectChanges();
 });
 
@@ -99,7 +95,6 @@ this.profilService.getNotes().subscribe(data => {
 
 ajouterFavori(){
     this.profilService.addFav(this.nomVille).subscribe(data => {
-        console.log(data);
         this.estFavori = true;
         this.cdr.detectChanges();
     });
@@ -108,7 +103,6 @@ ajouterFavori(){
 ajoutNote(){
     this.profilService.addNote(this.nomVille,this.note).subscribe(data => {
         this.dejaNote = true;
-        console.log(data);
         this.cdr.detectChanges();
     });
 }

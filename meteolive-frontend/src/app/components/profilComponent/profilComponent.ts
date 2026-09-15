@@ -31,7 +31,6 @@ export class profilComponent {
     );
 
     this.profilService.getProfil().subscribe((profil: any) => {
-    console.log('profil unite:', profil.unite);
     this.unite = profil.unite || 'c';
     this.chargement = false;
     this.cdr.detectChanges();

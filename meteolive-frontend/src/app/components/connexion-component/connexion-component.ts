@@ -32,7 +32,6 @@ export class ConnexionComponent {
 
       this.authService.login(form.value.email, form.value.password).subscribe({
         next: (data) => {
-          console.log('Connexion réussie');
           this.loading = false;
           this.cdr.detectChanges();
           this.router.navigate(['/accueil']);
