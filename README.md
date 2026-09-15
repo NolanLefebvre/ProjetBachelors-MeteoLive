@@ -46,7 +46,7 @@ cd ProjetBachelors-MeteoLive/meteolive-backend
 
 Crée un fichier `.env` à la racine de `meteolive-backend/` en te basant sur `.env.example` :
 ```bash
-cp .env.example .env
+cp meteolive-backend/.env.example meteolive-backend/.env
 ```
 
 Remplis les valeurs suivantes dans `.env` :
@@ -62,7 +62,12 @@ docker-compose up --build
 
 > ⏳ Le premier lancement prend environ 5 à 10 minutes (téléchargement des images Docker, installation des dépendances, création des tables).
 
-**4. Accéder à l'application**
+**4. Générer les clés JWT** (si elles ne sont pas présentes)
+```bash
+docker exec -it meteolive-backend-symfony-1 php bin/console lexik:jwt:generate-keypair
+```
+
+**5. Accéder à l'application**
 
 | Service | URL |
 |---|---|
@@ -181,6 +186,22 @@ docker exec -it meteolive-backend-symfony-1 php bin/phpunit
 - **CORS** configuré avec NelmioCorsBundle
 - Intercepteur HTTP côté Angular pour la gestion des tokens expirés
 
+---
 
+## 🔒 RGPD
 
+MétéoLive respecte les principes du RGPD :
+- Seules les données nécessaires au fonctionnement sont collectées (pseudo, email, préférences)
+- Les mots de passe sont hashés et jamais stockés en clair
+- Chaque utilisateur peut **supprimer son compte** depuis la page Paramètres
+- La suppression du compte entraîne la suppression de toutes les données personnelles
+- Aucun cookie de tracking — seul un token JWT est stocké en localStorage pour la session
 
+📄 [Politique de confidentialité](http://localhost:4200/confidentialite) — [Mentions légales](http://localhost:4200/mentions-legales)
+
+---
+
+## 👨‍💻 Auteur
+
+**Nolan Lefebvre** — Bachelor CDA — IPSSI  
+GitHub : [@NolanLefebvre](https://github.com/NolanLefebvre)
