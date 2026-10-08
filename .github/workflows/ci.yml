@@ -62,3 +62,51 @@ jobs:
       - name: Run tests
         run: php bin/phpunit
         working-directory: meteolive-backend
+
+  # Sécurité de la chaîne de développement :
+  # détection de secrets + audit des dépendances (back et front)
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # historique complet, pour scanner tous les commits
+
+      - name: Secret scanning (Gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Audit des dépendances PHP (composer audit)
+        run: composer audit
+        working-directory: meteolive-backend
+
+      - name: Audit des dépendances Angular (npm audit)
+        run: |
+          ANGULAR_JSON=$(find . -name angular.json -not -path '*/node_modules/*' | head -n 1)
+          if [ -z "$ANGULAR_JSON" ]; then
+            echo "Aucun angular.json trouvé : impossible de localiser le front."
+            exit 1
+          fi
+          FRONT_DIR=$(dirname "$ANGULAR_JSON")
+          echo "Front détecté dans : $FRONT_DIR"
+          cd "$FRONT_DIR"
+          npm audit --audit-level=high
+
+  # Analyse statique du code source (SAST) : PHP + TypeScript
+  sast:
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Analyse statique (Semgrep)
+        run: semgrep scan --config p/php --config p/typescript --config p/owasp-top-ten --error
