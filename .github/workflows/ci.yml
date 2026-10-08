@@ -74,7 +74,7 @@ jobs:
           fetch-depth: 0
 
       - name: Secret scanning (Gitleaks)
-        uses: gitleaks/gitleaks-action@e0c47f4 # v3.0.0
+        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e  # v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -110,4 +110,3 @@ jobs:
 
       - name: Analyse statique (Semgrep)
         run: semgrep scan --config p/php --config p/typescript --config p/owasp-top-ten --error
-
