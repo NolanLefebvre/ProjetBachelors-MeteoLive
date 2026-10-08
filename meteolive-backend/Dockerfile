@@ -21,6 +21,9 @@ RUN composer install --no-interaction --optimize-autoloader
 
 RUN chown -R www-data:www-data /var/www
 
+USER www-data
+
 EXPOSE 8000
 
 CMD ["sh", "-c", "sleep 10 && php bin/console doctrine:schema:create || true && php -S 0.0.0.0:8000 -t public"]
+
