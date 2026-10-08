@@ -84,7 +84,7 @@ jobs:
           php-version: '8.4'
 
       - name: Audit des dépendances PHP (composer audit)
-        run: composer audit
+        run: composer audit --locked
         working-directory: meteolive-backend
 
       - name: Audit des dépendances Angular (npm audit)
