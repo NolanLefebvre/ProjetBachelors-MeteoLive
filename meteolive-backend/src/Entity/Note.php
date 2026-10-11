@@ -20,7 +20,7 @@ class Note
     private ?\DateTime $date = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne]

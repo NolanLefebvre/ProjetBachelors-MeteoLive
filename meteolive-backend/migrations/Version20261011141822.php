@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260816153150 extends AbstractMigration
+final class Version20261011141822 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,10 +20,10 @@ final class Version20260816153150 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE favori ADD CONSTRAINT FK_EF85A2CCFB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)');
+        $this->addSql('ALTER TABLE favori ADD CONSTRAINT FK_EF85A2CCFB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE favori ADD CONSTRAINT FK_EF85A2CCA73F0036 FOREIGN KEY (ville_id) REFERENCES ville (id)');
         $this->addSql('ALTER TABLE meteo ADD CONSTRAINT FK_3D076077A73F0036 FOREIGN KEY (ville_id) REFERENCES ville (id)');
-        $this->addSql('ALTER TABLE note ADD CONSTRAINT FK_CFBDFA14FB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)');
+        $this->addSql('ALTER TABLE note ADD CONSTRAINT FK_CFBDFA14FB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE note ADD CONSTRAINT FK_CFBDFA14A73F0036 FOREIGN KEY (ville_id) REFERENCES ville (id)');
         $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B3FF564742 FOREIGN KEY (ville_defaut_id) REFERENCES ville (id)');
     }
